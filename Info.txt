@@ -1,0 +1,12 @@
+->Representación estado
+
+
+
+
+->Estado Inicial
+
+
+->Operadores
+
+
+Heurística
