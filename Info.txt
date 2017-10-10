@@ -1,12 +1,14 @@
 ->Representación estado
-
-
-
+  Viaje (Centro Distribución, Gasolinera) //A un CD se le asigna una G (cada CD tiene un camión)
+   o
+  Viaje (Centro Distribución, Gasolineras) //Pq el depósito del camión puede llenar dos depositos de una o más gasolineras 
 
 ->Estado Inicial
-
+  Viajes vacíos o con gasolineras aleatorias?
 
 ->Operadores
+  Añadir(Viaje, Gasolinera)
+  Eliminar(Viaje, Gasolinera)
+  Intercambiar(Viaje1, Gasolinera1, Gasolinera2) o Intercambiar(Viaje1, Gasolinera1, Viaje2, Gasolinera2)?¿?¿
 
-
-Heurística
+->Heurística
