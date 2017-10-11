@@ -14,7 +14,7 @@ public class IAMap {
         Trip -> CD + Truck
      */
 
-    private ArrayList<IAViajes> Viajes;
+    /*private ArrayList<IAViajes> Viajes;
     
     //Peticiones no atendidas y la gasolinera asociada
     private ArrayList<int, Gasolinera> PetNoAt;
@@ -23,7 +23,7 @@ public class IAMap {
     
     static Gasolineras gas;
 
-    /* Constructor estado vacio*/
+    /* Constructor estado vacio
     public IAMap(CentrosDistribucion centros, Gasolineras gasolineras) {
         
         cd = centros;
@@ -39,7 +39,7 @@ public class IAMap {
             while(tmp.hasNext())
                 PetNoAt.add(tmp.next(),g);
         }
-    }
+    }*/
     
     
 }

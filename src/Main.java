@@ -13,22 +13,36 @@ import aima.search.framework.SearchAgent;
 import aima.search.informed.AStarSearch;
 
 import java.util.Iterator;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Properties;
 
-public class Main {
-    public static void main(String[] args) throws Exception{
 
-    }
+public class Main {
+    public static void main(String[] args) throws Exception {
+
         CentrosDistribucion cd = new CentrosDistribucion(10, 1,10);
 
         Gasolineras gas = new Gasolineras(30, 10);
-      
-        
-        ArrayList<IAViajes> Viajes = new ArrayList<IAViajes>(); 
+
+        IAViajes v = new IAViajes(cd.get(1));
+        v.AddPetition(gas.get(1).getPeticiones().get(0),gas.get(1));
+        v.AddPetition(gas.get(1).getPeticiones().get(1),gas.get(1));
+        v.checkValues();
+
+        /*for (int i = 0; i < 10; i++){
+            ArrayList<Integer> prueba = gas.get(i).getPeticiones();
+
+            Iterator t = prueba.iterator();
+            while(t.hasNext()) {
+                Integer in = (Integer) t.next();
+                System.out.println("Gasolinera" + i + ", peticion: " + in);
+            }
+        }*/
+
+        /*ArrayList<IAViajes> Viajes = new ArrayList<IAViajes>();
         Viajes.add(new IAViajes(cd.get(1),gas.get(1).getPeticiones()));
         
-        IAMap map = new IAMap(cd, gas);
+        IAMap map = new IAMap(cd, gas);*/
 /*
         // Create the Problem object
         Problem p = new  Problem(board,
@@ -71,4 +85,5 @@ public class Main {
         }
     }
     */
+    }
 }
