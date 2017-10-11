@@ -2,6 +2,7 @@ package Prac1;
 
 import IA.Gasolina.CentrosDistribucion;
 import IA.Gasolina.Gasolineras;
+import IA.Gasolina.Gasolinera;
 
 public class IAMap {
     /* Class to represent the state of the problem
@@ -13,18 +14,32 @@ public class IAMap {
         Trip -> CD + Truck
      */
 
-    private int [] map; //int¿?¿?¿?¿
+    private ArrayList<IAViajes> Viajes;
+    
+    //Peticiones no atendidas y la gasolinera asociada
+    private ArrayList<int, Gasolinera> PetNoAt;
+    
+    static CentrosDistribucion cd;
+    
+    static Gasolineras gas;
 
-    /* Constructor */
-    public IAMap(CentrosDistribucion cd, Gasolineras gas) {
-
-        /*Two options:
-            - fill with random trips
-            - leave all trips empty
-         */
-
-        //Empty Trips//
-        map = new int[cd.size()]; //for example, CentrosDistribucion inherits "size" from ArrayList
-
+    /* Constructor estado vacio*/
+    public IAMap(CentrosDistribucion centros, Gasolineras gasolineras) {
+        
+        cd = centros;
+        gas = gasolineras;
+        
+        Viajes = new ArrayList<IAViajes>(); 
+        
+        PetNoAt = new ArrayList<int,Gasolinera>();
+        Iterator t = gas.iterator();
+        while(t.hasNext()){
+            Gasolinera g = t.next();
+            ArrayList<int> tmp = g.getPeticiones();
+            while(tmp.hasNext())
+                PetNoAt.add(tmp.next(),g);
+        }
     }
+    
+    
 }
