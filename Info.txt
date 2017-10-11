@@ -7,8 +7,24 @@
   Viajes vacíos o con gasolineras aleatorias?
 
 ->Operadores
-  Añadir(Viaje, Gasolinera)
-  Eliminar(Viaje, Gasolinera)
-  Intercambiar(Viaje1, Gasolinera1, Gasolinera2) o Intercambiar(Viaje1, Gasolinera1, Viaje2, Gasolinera2)?¿?¿
+  Add petition()
+  Remove petition()
+  Swap inside CD()
+  Swap between CD()
 
 ->Heurística
+
+Queremos maximizar beneficio, minimizar perdidas, minimizar distancia:
+
+1) beneficio(max) = Σ de todas las peticiones atendidas)
+          --> si dias pendientes = 0 --> beneficio = 1020€ (un tanque = 1000€ y si atiendes petición el mismo día cuesta 102%)
+          --> si dias pendientes > 0 --> beneficio = 1000 - 10(2^dias)
+                   
+2) Perdidas(min) = Σ del coste de todas las peticiones NO atendidas, es decir, la diferencia entre el beneficio que tendriamos hoy y si lo atendemos un dia más tarde
+          --> Σ (beneficios(dia) - beneficios(dia + 1))
+
+
+3)Distancia recorrida(min) = Σ de todos los quilometros recorridos por los camiones X2 (1km cuesta 2€)
+          --> Σ distancia recorrida X2
+
+HEURISTICO(min) = perdidas + distancia recorrida - beneficios
