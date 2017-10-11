@@ -40,6 +40,8 @@ Queremos maximizar beneficio, minimizar perdidas, minimizar distancia:
                    
 2) Perdidas(min) = Σ del coste de todas las peticiones NO atendidas, es decir, la diferencia entre el beneficio que tendriamos hoy y si lo atendemos un dia más tarde
           --> Σ (beneficios(dia) - beneficios(dia + 1))
+          
+    ----->>>>>//esto no hay que tenerlo en cuenta para el experimento, solo beneficios - coste quilometros
 
 
 3)Distancia recorrida(min) = Σ de todos los quilometros recorridos por los camiones X2 (1km cuesta 2€)
