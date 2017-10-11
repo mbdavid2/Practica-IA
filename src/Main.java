@@ -25,9 +25,17 @@ public class Main {
         Gasolineras gas = new Gasolineras(30, 10);
 
         IAViajes v = new IAViajes(cd.get(1));
+        IAMap map = new IAMap(cd, gas);
+
+
         v.AddPetition(gas.get(1).getPeticiones().get(0),gas.get(1));
         v.AddPetition(gas.get(1).getPeticiones().get(1),gas.get(1));
-        v.checkValues();
+
+
+        map.AddViajes(v);
+
+        map.getViajes(0).checkValues();
+
 
         /*for (int i = 0; i < 10; i++){
             ArrayList<Integer> prueba = gas.get(i).getPeticiones();

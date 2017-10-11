@@ -16,14 +16,16 @@ public class IAViajes {
 
 
     /*Different implementation
-    *  pet[0] from gas[0] and pet[1] from gas[1]
+    *  pet[0] is a petition from gas[0] and pet[1] from gas[1]
     */
-    private ArrayList<Integer> pet = new ArrayList<Integer>();
-    private ArrayList<Gasolinera> gas = new ArrayList<Gasolinera>();
+    private ArrayList<Integer> pet;
+    private ArrayList<Gasolinera> gas;
 
     /*Constructor*/
     public IAViajes(Distribucion centro) {
         CD = centro;
+        pet = new ArrayList<Integer>();
+        gas = new ArrayList<Gasolinera>();
     }
 
     public boolean AddPetition(int peticion, Gasolinera g){
@@ -56,7 +58,12 @@ public class IAViajes {
         if (pet.size() > 1) System.out.println("          " + pet.get(1) + " from gas station located at: (" + gas.get(1).getCoordX() + "," + gas.get(1).getCoordY() + ")");
     }
 
-    /*Getters for the coordiºnates of de CD*/
+    /*Getters*/
+
+    public Distribucion getCD(){
+        return CD;
+    }
+
     public int getX(){
         return CD.getCoordX();
     }
@@ -64,4 +71,5 @@ public class IAViajes {
     public int getY(){
         return CD.getCoordY();
     }
+
 }
