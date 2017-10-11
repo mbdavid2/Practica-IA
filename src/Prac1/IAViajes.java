@@ -72,4 +72,7 @@ public class IAViajes {
         return CD.getCoordY();
     }
 
+    public boolean isFull(){
+        return (pet.size() == 2 && gas.size() == 2);
+    }
 }

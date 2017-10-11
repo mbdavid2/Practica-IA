@@ -27,25 +27,29 @@ public class Main {
         IAViajes v = new IAViajes(cd.get(1));
         IAMap map = new IAMap(cd, gas);
 
-
-        v.AddPetition(gas.get(1).getPeticiones().get(0),gas.get(1));
-        v.AddPetition(gas.get(1).getPeticiones().get(1),gas.get(1));
-
-
-        map.AddViajes(v);
-
-        map.getViajes(0).checkValues();
-
-
-        /*for (int i = 0; i < 10; i++){
+        //Para ver como estan guardadas las peticiones
+        for (int i = 0; i < 30; i++){
             ArrayList<Integer> prueba = gas.get(i).getPeticiones();
 
             Iterator t = prueba.iterator();
             while(t.hasNext()) {
                 Integer in = (Integer) t.next();
-                System.out.println("Gasolinera" + i + ", peticion: " + in);
+                System.out.println("Gasolinera " + i + ", peticion: " + in);
             }
-        }*/
+        }
+
+        /*Pruebas*/
+        v.AddPetition(gas.get(1).getPeticiones().get(0),gas.get(1));
+        v.AddPetition(gas.get(1).getPeticiones().get(1),gas.get(1));
+
+        map.AddViajes(v);
+        map.AddPet(cd.get(4),gas.get(4).getPeticiones().get(0),gas.get(4));
+
+        map.getViajes(0).checkValues();
+        map.getViajes(1).checkValues();
+
+
+
 
         /*ArrayList<IAViajes> Viajes = new ArrayList<IAViajes>();
         Viajes.add(new IAViajes(cd.get(1),gas.get(1).getPeticiones()));
