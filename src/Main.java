@@ -1,6 +1,9 @@
 import Prac1.IAMap;
+import Prac1.IAViajes;
 
 import IA.Gasolina.Gasolineras;
+import IA.Gasolina.Gasolinera;
+import IA.Gasolina.Distribucion;
 import IA.Gasolina.CentrosDistribucion;
 
 import aima.search.framework.GraphSearch;
@@ -20,7 +23,11 @@ public class Main {
         CentrosDistribucion cd = new CentrosDistribucion(10, 1,10);
 
         Gasolineras gas = new Gasolineras(30, 10);
-
+      
+        
+        ArrayList<IAViajes> Viajes = new ArrayList<IAViajes>(); 
+        Viajes.add(new IAViajes(cd.get(1),gas.get(1).getPeticiones()));
+        
         IAMap map = new IAMap(cd, gas);
 /*
         // Create the Problem object
