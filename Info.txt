@@ -1,16 +1,36 @@
 ->Representación estado
-  Viaje (Centro Distribución, Gasolinera) //A un CD se le asigna una G (cada CD tiene un camión)
-   o
-  Viaje (Centro Distribución, Gasolineras) //Pq el depósito del camión puede llenar dos depositos de una o más gasolineras 
+Máximo 2 peticiones por viaje cisterna
+
+Implementación: Creamos clase "viajes", la clase viajes tiene un CD y un vector de max 2 peticiones
+                El estado general será un conjunto (lista/vector) de instancias de la clase viaje
+Ej.Viajes:
+    CD1 P1 P2  //Viaje1: CD1 atiende Pet1 y Pet2
+    CD1 P6 P8  //Viaje2: Otra vez CD1, ahora Pet6 y Pet8
+    CD2 P3
+    CD3 P5 P6 
+
+Lista pet: P4, P7... Peticiones no asignadas
+________________________________________________________________________________________________________________________________
 
 ->Estado Inicial
   Viajes vacíos o con gasolineras aleatorias?
+________________________________________________________________________________________________________________________________
 
 ->Operadores
-  Add petition()
-  Remove petition()
-  Swap inside CD()
-  Swap between CD()
+  .Add petition(CDX, PX)
+  
+  .Remove petition(CDX, PX)
+  
+  .Swap inside CD(CDX, PX, PY): 
+  e.g:
+     CD1 P1 P2
+     CD1 P6 P8
+  .SwapInside(CD1, P2, P8):
+     CD1 P1 P8
+     CD1 P6 P2
+     
+  .Swap between CD(CDX, CDY, PX, PY)
+________________________________________________________________________________________________________________________________
 
 ->Heurística
 
@@ -28,3 +48,4 @@ Queremos maximizar beneficio, minimizar perdidas, minimizar distancia:
           --> Σ distancia recorrida X2
 
 HEURISTICO(min) = perdidas + distancia recorrida - beneficios
+________________________________________________________________________________________________________________________________
