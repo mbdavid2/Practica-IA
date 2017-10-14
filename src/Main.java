@@ -24,37 +24,49 @@ public class Main {
 
         Gasolineras gas = new Gasolineras(30, 10);
 
-        IAViajes v = new IAViajes(cd.get(1));
+        //Creación estado inicial (vacío)
         IAMap map = new IAMap(cd, gas);
 
-        //Para ver como estan guardadas las peticiones
-        for (int i = 0; i < 30; i++){
-            ArrayList<Integer> prueba = gas.get(i).getPeticiones();
 
-            Iterator t = prueba.iterator();
-            while(t.hasNext()) {
-                Integer in = (Integer) t.next();
-                System.out.println("Gasolinera " + i + ", peticion: " + in);
-            }
-        }
+        /*Pruebas: Estado empieza vacio*/
+        map.printGas(0);//Con 0 muestra PetNoAt
+        //CD1 atendera a la gasolinera 2 por su peticion de hace 2 dias
+        System.out.println();
+        map.AddPet(cd.get(1),gas.get(2),2); //Aquí porque sé que la Gas2 tiene una pet 2, pero esto hay que comprovarlo antes..
+        //CD1 atendera a la gasolinera 0 por su peticion de hace 0 dias
+        map.AddPet(cd.get(1),gas.get(0),0);
+        System.out.println();
+        map.printGas(0);
 
-        /*Pruebas*/
-        v.AddPetition(gas.get(1).getPeticiones().get(0),gas.get(1));
-        v.AddPetition(gas.get(1).getPeticiones().get(1),gas.get(1));
+        /*Output:
+            [...] (Esto es del map, no está ordenado pero se puede encontrar por keys)
+        Gasolinera de: (3,10)
+            -> Petición: 0 dias
+            -> Petición: 1 dias
+        Gasolinera de: (95,80)
+            -> Petición: 2 dias
+        Gasolinera de: (33,62)
+            -> Petición: 0 dias
+            [...]
 
-        map.AddViajes(v);
-        map.AddPet(cd.get(4),gas.get(4).getPeticiones().get(0),gas.get(4));
+          -Se ha añadido un nuevo viaje al estado del problema, CD:(93,90) atenderá a G:(95,80) por su petición de 2 dias.
+          -(CD ya tenía viajes) Se ha añadido un nuevo viaje al estado del problema, CD:(93,90) atenderá a G:(13,80) por su petición de 0 dias.
 
-        map.getViajes(0).checkValues();
-        map.getViajes(1).checkValues();
+          [...]
+        Gasolinera de: (3,10)
+            -> Petición: 0 dias
+            -> Petición: 1 dias
+        Gasolinera de: (95,80)
+        Gasolinera de: (33,62)
+            -> Petición: 0 dias
+            [...]
+
+        (La otra petición también la borra)
+         */
 
 
 
-
-        /*ArrayList<IAViajes> Viajes = new ArrayList<IAViajes>();
-        Viajes.add(new IAViajes(cd.get(1),gas.get(1).getPeticiones()));
-        
-        IAMap map = new IAMap(cd, gas);*/
+        //Estas cosas son del IAProb5, las dejo por si acaso
 /*
         // Create the Problem object
         Problem p = new  Problem(board,
