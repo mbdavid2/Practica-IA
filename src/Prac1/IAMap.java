@@ -11,10 +11,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class IAMap {
-    /* Class to represent the state of the problem
 
-    State data structure
-    vector of trips assigned*/
     private ArrayList<IAViajes> Viajes;
 
     private Map<Gasolinera, ArrayList<Integer>> PetNoAt;
@@ -36,25 +33,22 @@ public class IAMap {
             g = (Gasolinera)t.next();
             PetNoAt.put(g ,g.getPeticiones());
         }
-        System.out.println("Se ha creado el estado incial IAMap (vacio)");
-        System.out.println("Tamaño PetNoAt:  " + PetNoAt.size());
+        System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
+        System.out.println("->Número de gasolineras con peticiones aún no atendidas:  " + PetNoAt.size());
     }
 
 
     /******OPERADORES******/
-
-    //El CD atenderá la petición de G de "i" dias. Se borra de PetNoAt
-    public void AddPet(Distribucion cd, Gasolinera g, int i){
-        IAViajes v;
-        //Comprobar si existe ya un viaje para ese centro
-        int aux = findCD(cd);
+    public void ProgramarViaje(Distribucion cd, Gasolinera g, int i){
+        /**El CD atenderá la petición de G de "i" dias. Se borra de PetNoAt**/
+        int aux = findCD_notFull(cd);//Buscar el viaje para ese centro, si no lo encuentra: o no tiene o los que tiene estan llenos
         if(aux == -1){
             //Si no existe viaje para ese CD, se crea una nueva entrada
             IAViajes nueva = new IAViajes(cd);
             nueva.AddViaje(i, g, 0);
             Viajes.add(nueva);
-            System.out.println("Se ha añadido un nuevo viaje al estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
-            (PetNoAt.get(g)).remove((Integer)i);
+            System.out.println("->Se ha añadido un nuevo viaje al estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
+            (PetNoAt.get(g)).remove((Integer)i);//Atendida
             /*OJO!
             	remove(int index)
                     Removes the element at the specified position in this list.
@@ -64,70 +58,40 @@ public class IAMap {
              */
         }
         else{
-            v = Viajes.get(aux); //Ya hay un viaje programado para CD (y con un espacio libre)
+            IAViajes v = Viajes.get(aux); //Ya hay un viaje programado para CD (y con un espacio libre)
             //Ahora la pregunta es....cuál va antes y cómo lo decidimos?¿?¿?
             v.AddViaje(i, g,1); //Pongo 1 por poner pero si pongo 0 iria este el primero
-            System.out.println("(CD ya tenía viajes) Pasará por otra gasolinera en un viaje del estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
-            (PetNoAt.get(g)).remove((Integer)i);
+            System.out.println("->(CD ya tenía viajes) Pasará por otra gasolinera en un viaje del estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
+            (PetNoAt.get(g)).remove((Integer)i);//Atendida
         }
+        //System.out.println("->Número de gasolineras con peticiones aún no atendidas:  " + PetNoAt.size());
     }
 
-
-
-
-
-
-
-
-    //Estas dos hay que comprovarlas/arreglarlas
-
-    public void AddViajes(IAViajes v){
-        Viajes.add(v);
-        //Hay que borrar la peticion de PEtNoAt
-    }
-
-    //Borra un viaje existente del estado (un camión dejará de atender una petición)
-    public boolean DelViajes(Distribucion cd, Gasolinera g, int i){
-        //i = 0, elimina la primera petición, i = 1 la segunda, i = 2 las dos (el objeto entero)
-        Iterator t = Viajes.iterator();
-        Distribucion tmpcd;
-        Boolean found = false;
+    public boolean BorrarViaje(Distribucion cd, Gasolinera g, int i){
+        /**Borra un viaje existente del estado (un camión dejará de atender una petición)
+        i = 0 elimina la primera petición, i = 1 la segunda**/
         IAViajes v;
-        //Buscar el viaje para ese centro
-        while(!found && t.hasNext()){
-            v = (IAViajes)t.next(); //Cast del objeto a tipo IAViajes
+        Iterator t = Viajes.iterator();
+        while(t.hasNext()){
+            v = (IAViajes)t.next(); //v ahora "apunta" al viaje???
             if (cd == v.getCD() && g == v.getG(i)){
-                if (i == 2){
-                    t.remove(); //Borra el objeto de IAMap
-                    return true;
-                }
-                found = true;
-                v.DelPetition(i);
+                v.DelViaje(i);
+                (PetNoAt.get(g)).add(i); //esto esta bien?? con el get no hay aliasing de ese??
+                //System.out.println("Número de gasolineras con peticiones aún no atendidas:  " + PetNoAt.size());
                 return true;
             }
         }
-        return false; //No existía
+        return false; //No existe ese viaje
     }
-    //Falta añadir peticion a PetnoAT!!!!
 
-
-
-
-
-
-    /******GETTERS******/
-    //Retorna los viajes asignados a un centro
-    public IAViajes getViajes(int i){
-        return Viajes.get(i);
+    public void SwapViaje(Distribucion cd, Gasolinera g, int i){
+        //Hay que programarla
     }
 
 
     /*****Funciones Auxiliares*****/
-
-    //Busca cd en Viajes (si no está devuelve -1)
-    //estoy asumiendo que cuando un cd tiene 2 camiones, hay DOS OBJETOS DISTINTOS cd en la misma posición
-    //así que el único caso en el que habrá 2 viajes con el mismo CD, será si uno está lleno
-    public int findCD(Distribucion cd){
+    public int findCD_notFull(Distribucion cd){
+        //Devuelve el indice del primer "Viaje" de CD que no está lleno (podrá pasar por una gasolinera más)
         IAViajes v;
         for (int i = 0; i < Viajes.size(); i++){
             v = Viajes.get(i);
@@ -164,6 +128,28 @@ public class IAMap {
             }
         }
     }
+
+    public void printViajes(){
+        System.out.println("");
+        if (Viajes.size() == 0) System.out.println("Aún no hay viajes programados");
+        IAViajes v;
+        for (int i = 0; i < Viajes.size(); i++){
+            v = Viajes.get(i);
+            System.out.println("ESTADO DEL VIAJE: " + v);
+            v.estadoViaje();
+        }
+    }
+
+
+
+
+    /******GETTERS******/
+    //Retorna los viajes asignados a un centro
+    public IAViajes getViajes(int i){
+        return Viajes.get(i);
+    }
+
+
 
 
 

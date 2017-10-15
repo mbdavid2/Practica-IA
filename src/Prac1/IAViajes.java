@@ -14,8 +14,7 @@ public class IAViajes {
   
     private Distribucion CD;
 
-
-    /*Different implementation
+    /*Implementation
     *  pet[0] is a petition from gas[0] and pet[1] from gas[1]
     */
     private ArrayList<Integer> pet;
@@ -28,6 +27,8 @@ public class IAViajes {
         gas = new ArrayList<Gasolinera>();
     }
 
+
+    /*Operaciones*/
     public boolean AddViaje(int dias, Gasolinera g, int i){
         //"i" es la prioridad e indica si va a la posición 0 o 1
         if(pet.size() >= 2 || gas.size() >= 2)
@@ -37,12 +38,29 @@ public class IAViajes {
         return true;
     }
 
-    public boolean DelPetition(int i){
+    public boolean DelViaje(int i){
         if (i > 2) return false;
         if (i == 2)
         pet.remove(i);
         gas.remove(i);
         return true;
+    }
+
+    /*Getters/Funciones Auxiliares*/
+    public Distribucion getCD(){
+        return CD;
+    }
+
+    public Gasolinera getG(int i){
+        return gas.get(i);
+    }
+
+    public int getX(){
+        return CD.getCoordX();
+    }
+
+    public int getY(){
+        return CD.getCoordY();
     }
 
     private int distCD_G(Distribucion c, Gasolinera g) { //Distance between a CD and a G
@@ -59,32 +77,16 @@ public class IAViajes {
         return 0;
     }
 
-    /*Getters/Funciones Auxiliares*/
-
-    public Distribucion getCD(){
-        return CD;
-    }
-
-    public int getX(){
-        return CD.getCoordX();
-    }
-
-    public int getY(){
-        return CD.getCoordY();
-    }
-
     public boolean isFull(){
         return (pet.size() == 2 && gas.size() == 2);
     }
 
-    public Gasolinera getG(int i){
-        return gas.get(i);
-    }
+
 
     /*Check state of object*/
-    public void checkValues(){
-        if (pet.size() > 0) System.out.println("Petition from gas station located at: (" + gas.get(0).getCoordX() + "," + gas.get(0).getCoordY() + ") since: " + pet.get(0) + " days");
-        if (pet.size() > 1) System.out.println("Petition from gas station located at: (" + gas.get(1).getCoordX() + "," + gas.get(1).getCoordY() + ") since: " + pet.get(1) + " days");
+    public void estadoViaje(){
+        if (pet.size() > 0) System.out.println("      El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programado atender a G:" + "(" + gas.get(0).getCoordX() + "," + gas.get(0).getCoordY() + ")" + " por su petición de " +  pet.get(0) + "dias");
+        if (pet.size() > 1) System.out.println("      El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programado atender a G:" + "(" + gas.get(1).getCoordX() + "," + gas.get(1).getCoordY() + ")" + " por su petición de " +  pet.get(1) + "dias");
     }
 
 

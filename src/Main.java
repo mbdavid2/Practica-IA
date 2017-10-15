@@ -29,14 +29,20 @@ public class Main {
 
 
         /*Pruebas: Estado empieza vacio*/
-        map.printGas(0);//Con 0 muestra PetNoAt
-        //CD1 atendera a la gasolinera 2 por su peticion de hace 2 dias
-        System.out.println();
-        map.AddPet(cd.get(1),gas.get(2),2); //Aquí porque sé que la Gas2 tiene una pet 2, pero esto hay que comprovarlo antes..
-        //CD1 atendera a la gasolinera 0 por su peticion de hace 0 dias
-        map.AddPet(cd.get(1),gas.get(0),0);
-        System.out.println();
-        map.printGas(0);
+        //map.printGas(0);//Con 0 muestra PetNoAt (map con las peticiones no atendidas)
+
+        map.printViajes();
+        //Programamos 2 viajes nuevos
+        map.ProgramarViaje(cd.get(1),gas.get(2),2); //CD1 atendera a la gasolinera 2 por su peticion de hace 2 dias (aquí porque sé que la Gas2 tiene una pet 2, pero esto hay que comprovarlo antes..)
+        map.ProgramarViaje(cd.get(1),gas.get(0),0); //CD1 atendera a la gasolinera 0 por su peticion de hace 0 dias
+        //map.printGas(0);
+        map.printViajes();
+
+        map.BorrarViaje(cd.get(1), gas.get(0),0);
+        map.printViajes();
+
+
+
 
         /*Output:
             [...] (Esto es del map, no está ordenado pero se puede encontrar por keys)
@@ -63,6 +69,12 @@ public class Main {
 
         (La otra petición también la borra)
          */
+
+
+
+
+
+
 
 
 
