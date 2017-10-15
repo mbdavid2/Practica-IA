@@ -46,7 +46,7 @@ public class IAMap {
             //Si no existe viaje para ese CD, se crea una nueva entrada
             IAViajes nueva = new IAViajes(cd);
             System.out.println("Gasolinera in programar" + g);
-            nueva.AddViaje(i, g, 0);
+            nueva.AddViaje(i, g);
             Viajes.add(nueva);
             System.out.println("->Se ha añadido un nuevo viaje al estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
             (PetNoAt.get(g)).remove((Integer)i);//Atendida
@@ -61,7 +61,7 @@ public class IAMap {
         else{
             IAViajes v = Viajes.get(aux); //Ya hay un viaje programado para CD (y con un espacio libre)
             //Ahora la pregunta es....cuál va antes y cómo lo decidimos?¿?¿?
-            v.AddViaje(i, g,1); //Pongo 1 por poner pero si pongo 0 iria este el primero
+            v.AddViaje(i, g); //Pongo 1 por poner pero si pongo 0 iria este el primero
             System.out.println("->(CD ya tenía viajes) Pasará por otra gasolinera en un viaje del estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
             (PetNoAt.get(g)).remove((Integer)i);//Atendida
         }
@@ -84,6 +84,17 @@ public class IAMap {
         }
         return false; //No existe ese viaje
     }
+
+    /*
+    public boolean BorrarViaje2(int i, int j){ //0 <= i < Viajes.size(); 0<= j <= 1;
+        if(j >= (Viajes.get(i)).getN()) return false;
+        Gasolinera g = Viajes.get(i).getG(j);
+        int p = Viajes.get(i).getPetition(j);
+        (PetNoAt.get(g)).add(p);
+        Viajes.DelViaje(j);
+        return true;
+   }
+   */
 
     public void SwapViaje(Distribucion cd, Gasolinera g, int i){
         //Hay que programarla
@@ -149,9 +160,6 @@ public class IAMap {
     public IAViajes getViajes(int i){
         return Viajes.get(i);
     }
-
-
-
 
 
 
