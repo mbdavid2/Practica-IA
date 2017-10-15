@@ -35,12 +35,13 @@ public class IAViajes {
             return false;
         pet.add(i, dias);
         gas.add(i, g);
+        if(i == 0)
+            System.out.println("Gasoinera: " + g);
         return true;
     }
 
     public boolean DelViaje(int i){
-        if (i > 2) return false;
-        if (i == 2)
+        if ((i < 0) || (i >= 2)) return false;
         pet.remove(i);
         gas.remove(i);
         return true;

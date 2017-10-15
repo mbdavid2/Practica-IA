@@ -45,6 +45,7 @@ public class IAMap {
         if(aux == -1){
             //Si no existe viaje para ese CD, se crea una nueva entrada
             IAViajes nueva = new IAViajes(cd);
+            System.out.println("Gasolinera in programar" + g);
             nueva.AddViaje(i, g, 0);
             Viajes.add(nueva);
             System.out.println("->Se ha añadido un nuevo viaje al estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
@@ -73,8 +74,8 @@ public class IAMap {
         IAViajes v;
         Iterator t = Viajes.iterator();
         while(t.hasNext()){
-            v = (IAViajes)t.next(); //v ahora "apunta" al viaje???
-            if (cd == v.getCD() && g == v.getG(i)){
+            v = (IAViajes)t.next(); //v ahora "apunta" al viaje??? si
+            if (cd.equals(v.getCD()) && g.equals(v.getG(i))){
                 v.DelViaje(i);
                 (PetNoAt.get(g)).add(i); //esto esta bien?? con el get no hay aliasing de ese??
                 //System.out.println("Número de gasolineras con peticiones aún no atendidas:  " + PetNoAt.size());

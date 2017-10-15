@@ -37,8 +37,7 @@ public class Main {
         map.ProgramarViaje(cd.get(1),gas.get(0),0); //CD1 atendera a la gasolinera 0 por su peticion de hace 0 dias
         //map.printGas(0);
         map.printViajes();
-
-        map.BorrarViaje(cd.get(1), gas.get(0),0);
+        map.BorrarViaje(cd.get(1), gas.get(0),1);
         map.printViajes();
 
 
