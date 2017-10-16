@@ -31,51 +31,68 @@ public class IAMap {
         Viajes = new ArrayList<IAViajes>();
         Gasolinera g;
         PetNoAt = new ArrayList<IAPet>();
-        ArrayList<Integer> petaux = new ArrayList<Integer>();
+        ArrayList<Integer> petaux;
         Iterator t = gas.iterator();
         Iterator aux;
+        IAPet pet;
         while(t.hasNext()){
             g = (Gasolinera)t.next();
             petaux = g.getPeticiones();
             aux = petaux.iterator();
-            while (aux.hasNext()) {
-                IAPet pet = new IAPet(g, (Integer)aux.next());
+            while(aux.hasNext()) {
+                pet = new IAPet(g, (Integer)aux.next());
                 PetNoAt.add(pet);
+                perd += pet.get_Ben();
             }
         }
         System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
-        System.out.println("->Número de gasolineras con peticiones aún no atendidas:  " + PetNoAt.size());
     }
 
 
     /******OPERADORES******/
     public void ProgramarViaje(Distribucion cd, Gasolinera g, int i){
         /**El CD atenderá la petición de G de "i" dias. Se borra de PetNoAt**/
-        int aux = findCD_notFull(cd);//Buscar el viaje para ese centro, si no lo encuentra: o no tiene o los que tiene estan llenos
+        int aux = findViaje_notFull(cd);
         if(aux == -1){
             //Si no existe viaje para ese CD, se crea una nueva entrada
             IAViajes nueva = new IAViajes(cd);
-            System.out.println("Gasolinera in programar" + g);
             nueva.AddViaje(i, g);
             Viajes.add(nueva);
             System.out.println("->Se ha añadido un nuevo viaje al estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
-            (PetNoAt.get(g)).remove((Integer)i);//Atendida
-            /*OJO!
-            	remove(int index)
-                    Removes the element at the specified position in this list.
-                remove(Object o)
-                    Removes the first occurrence of the specified element from this list, if it is present.
-             Hago cast a Integer porque quiero borrar la peticion del dia "i", no la peticion en el indice i
-             */
+            boolean found = false;
+            IAPet pet;
+            for (int j = 0; j < PetNoAt.size(); j++){
+                pet = PetNoAt.get(j);
+                if(!found) {
+                    if (g.equals(pet.get_Gas()) && i == pet.get_Dias()) {
+                        perd -= pet.get_Ben();
+                        PetNoAt.remove(pet);//Borra así con el objeto o mejor encontrar el indice¿?
+                        found = true;
+                    }
+                    //POco eficiente porque lo recorre todo
+                }
+            }
         }
         else{
-            IAViajes v = Viajes.get(aux); //Ya hay un viaje programado para CD (y con un espacio libre)
-            //Ahora la pregunta es....cuál va antes y cómo lo decidimos?¿?¿?
-            v.AddViaje(i, g); //Pongo 1 por poner pero si pongo 0 iria este el primero
+            IAViajes v = Viajes.get(aux);
+            v.AddViaje(i, g);
             System.out.println("->(CD ya tenía viajes) Pasará por otra gasolinera en un viaje del estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
-            (PetNoAt.get(g)).remove((Integer)i);//Atendida
+            boolean found = false;
+            IAPet pet;
+            for (int j = 0; j < PetNoAt.size(); j++){
+                pet = PetNoAt.get(j);
+                if(!found) {
+                    if (g.equals(pet.get_Gas()) && i == pet.get_Dias()) {
+                        perd -= pet.get_Ben();
+                        PetNoAt.remove(pet);//Borra así con el objeto o mejor encontrar el indice¿?
+                        found = true;
+                    }
+                }
+            }
         }
-        //System.out.println("->Número de gasolineras con peticiones aún no atendidas:  " + PetNoAt.size());
+        System.out.println("->Número de peticiones aún no atendidas:  " + PetNoAt.size());
+        System.out.println("->Pérdidas por no atenderlas:  " + perd);
+        System.out.println("");
     }
 
     public boolean BorrarViaje(Distribucion cd, Gasolinera g, int i){
@@ -83,16 +100,19 @@ public class IAMap {
         i = 0 elimina la primera petición, i = 1 la segunda**/
         IAViajes v;
         Iterator t = Viajes.iterator();
+        IAPet pet;
         while(t.hasNext()){
             v = (IAViajes)t.next(); //v ahora "apunta" al viaje??? si
             if (cd.equals(v.getCD()) && g.equals(v.getG(i))){
-                v.DelViaje(i);
-                (PetNoAt.get(g)).add(i); //esto esta bien?? con el get no hay aliasing de ese??
-                //System.out.println("Número de gasolineras con peticiones aún no atendidas:  " + PetNoAt.size());
+                int dias = v.DelViaje(i);
+                pet = new IAPet(g, dias);
+                PetNoAt.add(pet);
+                System.out.println("");
+                System.out.println("Viaje borrado");
                 return true;
             }
         }
-        return false; //No existe ese viaje
+        return false;
     }
 
     /*
@@ -112,7 +132,7 @@ public class IAMap {
 
 
     /*****Funciones Auxiliares*****/
-    public int findCD_notFull(Distribucion cd){
+    public int findViaje_notFull(Distribucion cd){
         //Devuelve el indice del primer "Viaje" de CD que no está lleno (podrá pasar por una gasolinera más)
         IAViajes v;
         for (int i = 0; i < Viajes.size(); i++){
@@ -124,28 +144,28 @@ public class IAMap {
 
     public void printGas(int j){
         if (j == 0) {
-            //Para ver como estan guardadas las peticiones EN EL MAP
-            Iterator it = PetNoAt.keySet().iterator();
-            ArrayList<Integer> petsaux;
+            Iterator it = PetNoAt.iterator();
+            int i = 0;
+            IAPet pet;
             while (it.hasNext()) {
-                Gasolinera key = (Gasolinera) it.next();
-                petsaux = PetNoAt.get(key);
-                System.out.println("Gasolinera de: (" + key.getCoordX() + "," + key.getCoordY() + ")");
-                Iterator it2 = petsaux.iterator();
-                while (it2.hasNext()) {
-                    System.out.println("    -> Petición: " + (Integer) it2.next() + " dias");
-                }
+                pet = (IAPet) it.next();
+                Gasolinera gas = pet.get_Gas();
+                int dias = pet.get_Dias();
+                System.out.println("Gasolinera de: (" + gas.getCoordX() + "," + gas.getCoordY() + ")");
+                System.out.println("    -> Petición: " + dias + " dias");
             }
+
         }
         else if (j == 1) {
             //Para ver como estan guardadas las peticiones DE VERDAD
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < gas.size(); i++) {
                 ArrayList<Integer> prueba = gas.get(i).getPeticiones();
                 Iterator t2 = prueba.iterator();
                 System.out.println("Gasolinera de: (" + gas.get(i).getCoordX() + "," + gas.get(i).getCoordY() + ")");
                 while (t2.hasNext()) {
                     Integer in = (Integer) t2.next();
                     System.out.println("    -> Petición: " + in + " dias");
+
                 }
             }
         }
@@ -171,31 +191,4 @@ public class IAMap {
         return Viajes.get(i);
     }
 
-
-
-
-
-    //Version antigua de AddPet
-    /*public void AddPet(Distribucion cd, int peticion, Gasolinera g){
-        Iterator t = Viajes.iterator();
-        Distribucion tmpcd;
-        Boolean found = false;
-        IAViajes v;
-        //Comprobar si existe ya un viaje para ese centro
-        while(!found && t.hasNext()){
-            v = (IAViajes)t.next(); //Cast del objeto a tipo IAViajes
-            if (cd == v.getCD()){
-                found = true;
-            }
-        }
-        if (!found){
-            //Si no existe NINGUN viaje para ese CD, se crea una nueva entrada
-            IAViajes nueva = new IAViajes(cd);
-            nueva.AddPetition(peticion,g);
-            Viajes.add(nueva);
-        }
-        else {
-            //Pero si lo encuentra...a cual añade la peticion¿?¿?
-        }
-    }*/
 }

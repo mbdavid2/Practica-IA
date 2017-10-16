@@ -9,17 +9,31 @@ public class IAPet {
 
     private int dias;
 
-    private int benefici; //En %
-    //Tambe pot estar a l'estat: benef total
+    private int beneficio;
+    //Un deposito = 1000€
+    //Beneficio = 1200€ si dia 0 o 100*(100 - 2^dias) si dia > 0
 
     /*Constructor*/
     public IAPet(Gasolinera gas, int d) {
         g = gas;
         dias = d;
-        benefici = calc_Ben();
+        beneficio = calc_Ben();
     }
 
-    public int calc_Ben(){
-        return (100 - 2^dias);
+    private int calc_Ben(){
+        if (dias == 0) return 1200;
+        return 100*(100 - 2^dias);
+    }
+
+    public int get_Ben(){
+        return beneficio;
+    }
+
+    public Gasolinera get_Gas(){
+        return g;
+    }
+
+    public int get_Dias(){
+        return dias;
     }
 }
