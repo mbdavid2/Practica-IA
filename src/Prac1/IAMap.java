@@ -20,6 +20,8 @@ public class IAMap {
     
     static Gasolineras gas;
 
+    private int perd; //Implementar: perdidas de pet no atendidas
+
     /****Constructor estado vacio****/
     public IAMap(CentrosDistribucion centros, Gasolineras gasolineras) {
         cd = centros;

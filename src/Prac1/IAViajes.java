@@ -21,6 +21,7 @@ public class IAViajes {
     private ArrayList<Gasolinera> gas;
 
     private int distance;
+    private int benefici;
 
     /*Constructor*/
     public IAViajes(Distribucion centro) {
