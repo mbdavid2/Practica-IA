@@ -14,7 +14,9 @@ public class IAMap {
 
     private ArrayList<IAViajes> Viajes;
 
-    private Map<Gasolinera, ArrayList<Integer>> PetNoAt;
+    //private Map<Gasolinera, ArrayList<Integer>> PetNoAt;
+
+    private ArrayList<IAPet> PetNoAt;
 
     static CentrosDistribucion cd;
     
@@ -27,13 +29,19 @@ public class IAMap {
         cd = centros;
         gas = gasolineras;
         Viajes = new ArrayList<IAViajes>();
-
         Gasolinera g;
-        PetNoAt = new HashMap<Gasolinera, ArrayList<Integer>>();
+        PetNoAt = new ArrayList<IAPet>();
+        ArrayList<Integer> petaux = new ArrayList<Integer>();
         Iterator t = gas.iterator();
+        Iterator aux;
         while(t.hasNext()){
             g = (Gasolinera)t.next();
-            PetNoAt.put(g ,g.getPeticiones());
+            petaux = g.getPeticiones();
+            aux = petaux.iterator();
+            while (aux.hasNext()) {
+                IAPet pet = new IAPet(g, (Integer)aux.next());
+                PetNoAt.add(pet);
+            }
         }
         System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
         System.out.println("->Número de gasolineras con peticiones aún no atendidas:  " + PetNoAt.size());

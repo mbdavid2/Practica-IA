@@ -9,15 +9,17 @@ public class IAPet {
 
     private int dias;
 
-    private int benefici; //Tambe pot estar a l'estat: benef total
+    private int benefici; //En %
+    //Tambe pot estar a l'estat: benef total
 
-    /*Constrctor*/
-    public IAPet(Gasolineras gas, int dias) {
-        //implementar
+    /*Constructor*/
+    public IAPet(Gasolinera gas, int d) {
+        g = gas;
+        dias = d;
+        benefici = calc_Ben();
     }
 
     public int calc_Ben(){
-        //implementar
-        return 0;
+        return (100 - 2^dias);
     }
 }
