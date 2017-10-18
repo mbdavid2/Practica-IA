@@ -28,7 +28,7 @@ public class Main {
         IAMap map = new IAMap(cd, gas);
 
         /*Pruebas: Estado empieza vacio*/
-        map.AñadirViaje(1,3);
+        map.AddViaje(1,3);
 
         map.printViajes();
 

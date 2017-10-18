@@ -11,7 +11,7 @@ public class IAViajes {
 
     /* Array de peticiones.
     Un viaje es un conjunto de dos peticiones, una de posición par x (x%2 = 0) i x+1;
-     */
+    */
     private ArrayList<IAPet> Peticiones;
 
     private int distanciaTotal;
@@ -23,7 +23,6 @@ public class IAViajes {
         CD = centro;
         Peticiones = new ArrayList<IAPet>();
         distanciaTotal = 0;
-
     }
 
     /*Operaciones*/
@@ -35,19 +34,6 @@ public class IAViajes {
         distanciaTotal += calcular_dV(x);
         beneficioTotal += peticion.get_Ben();
         return true;
-    }
-
-    public IAPet DelPet(int i){ //0 <= i < Peticiones.size()
-        beneficioTotal -= Peticiones.get(i).get_Ben();
-        IAPet peticion = Peticiones.get(i);
-        int x = Peticiones.size();
-        if(i == x-1){
-
-        }
-        if(Peticiones.size()%2 == 0){
-
-        }
-        return peticion;
     }
 
     /*Getters/Funciones Auxiliares*/
@@ -68,16 +54,13 @@ public class IAViajes {
         }
     }
 
-    public Distribucion getCD(){
-        return CD;
-    }
-
-
-
     /*Check state of object*/
-    /*public void estadoViaje(){
-        if (pet.size() > 0) System.out.println("      El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programado atender a G:" + "(" + pet.get(0).get_Gas().getCoordX() + "," + pet.get(0).get_Gas().getCoordY() + ")" + " por su petición de " +  pet.get(0).get_Dias() + " dias");
-        if (pet.size() > 1) System.out.println("      El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programado atender a G:" + "(" + pet.get(1).get_Gas().getCoordX() + "," + pet.get(1).get_Gas().getCoordY() + ")" + " por su petición de " +  pet.get(1).get_Dias() + " dias");
-        System.out.println("      Distancia del viaje: " + distance);
-    }*/
+    public void estadoViaje(){
+        System.out.println("El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programados los siguientes viajes:");
+        for (int i = 0; i < Peticiones.size(); ++i){
+            if(i%2 == 0) System.out.println("   Viaje " + (i%2)+1 + ":");
+            System.out.println("      " + ((i%2)+1) +". Atiende a G:" + "(" + Peticiones.get(i).get_Gas().getCoordX() + "," + Peticiones.get(i).get_Gas().getCoordY() + ")" + " por su petición de " + Peticiones.get(i).get_Dias() + " dias");
+        }
+        System.out.println("Distancia total del camión: " + distanciaTotal);
+    }
 }

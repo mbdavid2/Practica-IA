@@ -63,103 +63,25 @@ public class IAMap {
 
     public void SwapViaje(int v, int p1, int p2){
         //Borra petición (y la añade a PetNoAt)
-        IAPet pet1 = Viajes.get(v).DelPet(p1);
+        /*IAPet pet1 = Viajes.get(v).DelPet(p1);
         PetNoAt.add(pet1);
         perd += pet1.get_Per();
+
         //Añade petición (y la borra de PetNoAt)
         IAPet pet2 = PetNoAt.get(p2);
         Viajes.get(v).AddPet(pet2);
         PetNoAt.remove(p2);
-        perd -= pet2.get_Per();
+        perd -= pet2.get_Per();*/
     }
 
-    /*public void AñadirViaje(Distribucion cd, Gasolinera g, int dias){
-        for (IAViajes v: Viajes) {
-            if (cd == v.getCD()){
-                v.AddPet(new IAPet(g, dias));
-                break;
-            }
-        }
-    }*/
 
-    /*public void ProgramarViaje(Distribucion cd, Gasolinera g, int i){
-        /**El CD atenderá la petición de G de "i" dias. Se borra de PetNoAt**
-        int aux = findViaje_notFull(cd);
-        if(aux == -1){
-            //Si no existe viaje para ese CD, se crea una nueva entrada
-            IAViajes nueva = new IAViajes(cd);
-            nueva.AddViaje(i, g);
-            Viajes.add(nueva);
-            System.out.println("->Se ha añadido un nuevo viaje al estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
-            boolean found = false;
-            IAPet pet;
-            for (int j = 0; j < PetNoAt.size(); j++){
-                pet = PetNoAt.get(j);
-                if(!found) {
-                    if (g.equals(pet.get_Gas()) && i == pet.get_Dias()) {
-                        perd -= pet.get_Ben();
-                        PetNoAt.remove(pet);//Borra así con el objeto o mejor encontrar el indice¿?
-                        found = true;
-                    }
-                    //POco eficiente porque lo recorre todo
-                }
-            }
-        }
-        else{
-            IAViajes v = Viajes.get(aux);
-            v.AddViaje(i, g);
-            System.out.println("->(CD ya tenía viajes) Pasará por otra gasolinera en un viaje del estado del problema, CD:" + "(" + cd.getCoordX() + "," + cd.getCoordY() + ")" + " atenderá a G:" + "(" + g.getCoordX() + "," + g.getCoordY() + ")" + " por su petición de " + i + " dias.");
-            boolean found = false;
-            IAPet pet;
-            for (int j = 0; j < PetNoAt.size(); j++){
-                pet = PetNoAt.get(j);
-                if(!found) {
-                    if (g.equals(pet.get_Gas()) && i == pet.get_Dias()) {
-                        perd -= pet.get_Ben();
-                        PetNoAt.remove(pet);//Borra así con el objeto o mejor encontrar el indice¿?
-                        found = true;
-                    }
-                }
-            }
-        }
+    /*
         System.out.println("->Número de peticiones aún no atendidas:  " + PetNoAt.size());
         System.out.println("->Pérdidas por no atenderlas:  " + perd);
         System.out.println("");
     }*/
 
-    /*public boolean BorrarViaje(Distribucion cd, Gasolinera g, int i){
-        /**Borra un viaje existente del estado (un camión dejará de atender una petición)
-        i = 0 elimina la primera petición, i = 1 la segunda*
-        IAViajes v;
-        Iterator t = Viajes.iterator();
-        IAPet pet;
-        while(t.hasNext()){
-            v = (IAViajes)t.next(); //v ahora "apunta" al viaje??? si
-            if (cd.equals(v.getCD()) && g.equals(v.getG(i))){
-                int dias = v.DelViaje(i);
-                pet = new IAPet(g, dias);
-                PetNoAt.add(pet);
-                System.out.println("");
-                System.out.println("Viaje borrado");
-                return true;
-            }
-        }
-        return false;
-    }
-*/
 
-
-    /*****Funciones Auxiliares*****/
-    /*public int findViaje_notFull(Distribucion cd){
-        //Devuelve el indice del primer "Viaje" de CD que no está lleno (podrá pasar por una gasolinera más)
-        IAViajes v;
-        for (int i = 0; i < Viajes.size(); i++){
-            v = Viajes.get(i);
-            if (v.getCD() == cd && !v.isFull()) return i;
-        }
-        return -1;
-    }
-*/
     public void printGas(int j){
         if (j == 0) {
             Iterator it = PetNoAt.iterator();
@@ -196,7 +118,7 @@ public class IAMap {
         for (int i = 0; i < Viajes.size(); i++){
             v = Viajes.get(i);
             System.out.println("ESTADO DEL VIAJE: " + v);
-            //v.estadoViaje();
+            v.estadoViaje();
         }
     }
 }
