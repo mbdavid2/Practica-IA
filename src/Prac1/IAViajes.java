@@ -33,7 +33,7 @@ public class IAViajes {
         Peticiones.add(peticion);
         distanciaTotal += calcular_dV(x);
         beneficioTotal += peticion.get_Ben();
-        return true;
+        return distanciaTotal > 640;
     }
 
     /*Getters/Funciones Auxiliares*/
