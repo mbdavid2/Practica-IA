@@ -12,37 +12,41 @@ import java.util.Map;
 
 public class IAMap {
 
-    private ArrayList<IAViajes> Viajes;
-
-    //private Map<Gasolinera, ArrayList<Integer>> PetNoAt;
-
-    private ArrayList<IAPet> PetNoAt;
-
     static CentrosDistribucion cd;
     
     static Gasolineras gas;
 
-    private int perd; //Implementar: perdidas de pet no atendidas
+    private ArrayList<IAViajes> Viajes;
+
+    private ArrayList<IAPet> PetNoAt;
+
+    private int perd; //Perdidas totales de pet no atendidas
 
     /****Constructor estado vacio****/
     public IAMap(CentrosDistribucion centros, Gasolineras gasolineras) {
         cd = centros;
         gas = gasolineras;
         Viajes = new ArrayList<IAViajes>();
-        Gasolinera g;
+        Iterator c = centros.iterator();
+        //Un IAViajes para cada CD
+        while (c.hasNext()){
+            Viajes.add(new IAViajes((Distribucion) c.next()));
+        }
+        //Guardar PetNoAt//
         PetNoAt = new ArrayList<IAPet>();
         ArrayList<Integer> petaux;
         Iterator t = gas.iterator();
         Iterator aux;
         IAPet pet;
-        while(t.hasNext()){
-            g = (Gasolinera)t.next();
+        Gasolinera g;
+        while(t.hasNext()) {
+            g = (Gasolinera) t.next();
             petaux = g.getPeticiones();
             aux = petaux.iterator();
-            while(aux.hasNext()) {
-                pet = new IAPet(g, (Integer)aux.next());
+            while (aux.hasNext()) {
+                pet = new IAPet(g, (Integer) aux.next());
                 PetNoAt.add(pet);
-                perd += pet.get_Ben();
+                perd -= pet.get_Per();
             }
         }
         System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
@@ -50,8 +54,36 @@ public class IAMap {
 
 
     /******OPERADORES******/
-    public void ProgramarViaje(Distribucion cd, Gasolinera g, int i){
-        /**El CD atenderá la petición de G de "i" dias. Se borra de PetNoAt**/
+    public void AddViaje(int v, int p){
+        IAPet pet = PetNoAt.get(p);
+        perd -= pet.get_Per();
+        PetNoAt.remove(p);
+        Viajes.get(v).AddPet(pet);
+    }
+
+    public void SwapViaje(int v, int p1, int p2){
+        //Borra petición (y la añade a PetNoAt)
+        IAPet pet1 = Viajes.get(v).DelPet(p1);
+        PetNoAt.add(pet1);
+        perd += pet1.get_Per();
+        //Añade petición (y la borra de PetNoAt)
+        IAPet pet2 = PetNoAt.get(p2);
+        Viajes.get(v).AddPet(pet2);
+        PetNoAt.remove(p2);
+        perd -= pet2.get_Per();
+    }
+
+    /*public void AñadirViaje(Distribucion cd, Gasolinera g, int dias){
+        for (IAViajes v: Viajes) {
+            if (cd == v.getCD()){
+                v.AddPet(new IAPet(g, dias));
+                break;
+            }
+        }
+    }*/
+
+    /*public void ProgramarViaje(Distribucion cd, Gasolinera g, int i){
+        /**El CD atenderá la petición de G de "i" dias. Se borra de PetNoAt**
         int aux = findViaje_notFull(cd);
         if(aux == -1){
             //Si no existe viaje para ese CD, se crea una nueva entrada
@@ -93,11 +125,11 @@ public class IAMap {
         System.out.println("->Número de peticiones aún no atendidas:  " + PetNoAt.size());
         System.out.println("->Pérdidas por no atenderlas:  " + perd);
         System.out.println("");
-    }
+    }*/
 
-    public boolean BorrarViaje(Distribucion cd, Gasolinera g, int i){
+    /*public boolean BorrarViaje(Distribucion cd, Gasolinera g, int i){
         /**Borra un viaje existente del estado (un camión dejará de atender una petición)
-        i = 0 elimina la primera petición, i = 1 la segunda**/
+        i = 0 elimina la primera petición, i = 1 la segunda*
         IAViajes v;
         Iterator t = Viajes.iterator();
         IAPet pet;
@@ -114,25 +146,11 @@ public class IAMap {
         }
         return false;
     }
-
-    /*
-    public boolean BorrarViaje2(int i, int j){ //0 <= i < Viajes.size(); 0<= j <= 1;
-        if(j >= (Viajes.get(i)).getN()) return false;
-        Gasolinera g = Viajes.get(i).getG(j);
-        int p = Viajes.get(i).getPetition(j);
-        (PetNoAt.get(g)).add(p);
-        Viajes.DelViaje(j);
-        return true;
-   }
-   */
-
-    public void SwapViaje(Distribucion cd, Gasolinera g, int i){
-        //Hay que programarla
-    }
+*/
 
 
     /*****Funciones Auxiliares*****/
-    public int findViaje_notFull(Distribucion cd){
+    /*public int findViaje_notFull(Distribucion cd){
         //Devuelve el indice del primer "Viaje" de CD que no está lleno (podrá pasar por una gasolinera más)
         IAViajes v;
         for (int i = 0; i < Viajes.size(); i++){
@@ -141,7 +159,7 @@ public class IAMap {
         }
         return -1;
     }
-
+*/
     public void printGas(int j){
         if (j == 0) {
             Iterator it = PetNoAt.iterator();
@@ -178,17 +196,8 @@ public class IAMap {
         for (int i = 0; i < Viajes.size(); i++){
             v = Viajes.get(i);
             System.out.println("ESTADO DEL VIAJE: " + v);
-            v.estadoViaje();
+            //v.estadoViaje();
         }
     }
-
-
-
-
-    /******GETTERS******/
-    //Retorna los viajes asignados a un centro
-    public IAViajes getViajes(int i){
-        return Viajes.get(i);
-    }
-
 }
+

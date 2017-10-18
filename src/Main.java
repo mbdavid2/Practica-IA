@@ -27,18 +27,10 @@ public class Main {
         //Creación estado inicial (vacío)
         IAMap map = new IAMap(cd, gas);
 
-
         /*Pruebas: Estado empieza vacio*/
-        map.printGas(0);
-        map.ProgramarViaje(cd.get(1),gas.get(2),2); //CD1 atendera a la gasolinera 2 por su peticion de hace 2 dias (aquí porque sé que la Gas2 tiene una pet 2, pero esto hay que comprovarlo antes..)
-        map.ProgramarViaje(cd.get(1),gas.get(0),0); //CD1 atendera a la gasolinera 0 por su peticion de hace 0 dias
+        map.AñadirViaje(1,3);
+
         map.printViajes();
-        map.BorrarViaje(cd.get(1), gas.get(0),1);
-        map.printViajes();
-        map.printGas(0);
-
-
-
 
 
 
