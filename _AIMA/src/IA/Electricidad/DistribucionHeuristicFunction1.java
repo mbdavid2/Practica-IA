@@ -1,10 +1,10 @@
 /*
- * Práctica de IA (Búsqueda)
+ * Practica de IA (Busqueda)
  * FIB - UPC
  * Curso 2006-2007
- * Cuatrimestre de Otoño
+ * Cuatrimestre de Otono
  *
- * Daniel García Pérez
+ * Daniel Garcia Perez
  * Sergio Vico Marfil
  *
  *

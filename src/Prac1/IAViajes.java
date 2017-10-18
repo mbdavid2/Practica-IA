@@ -6,107 +6,86 @@ import IA.Gasolina.Gasolineras;
 import java.util.ArrayList;
 
 public class IAViajes {
-    /*
-       CD (CentroDistribucion)
-       pet1 pet2   //Assigned petitions (max 2)
-       gasX gasY   //Gas stations of those petitions
-     */
-  
-    private Distribucion CD;
 
-    /*Implementation
-    *  pet[0] is a petition from gas[0] and pet[1] from gas[1]
-    */
-    private ArrayList<Integer> pet;
-    private ArrayList<Gasolinera> gas;
+    private Distribucion CD; //Centro distribucion
+
+    /* Array de peticiones.
+    Un viaje es un conjunto de dos peticiones, una de posición par x (x%2 = 0) i x+1;
+     */
+    private ArrayList<IAPet> Peticiones;
+
+    private int distanciaTotal;
+
+    private int beneficioTotal;
 
     /*Constructor*/
     public IAViajes(Distribucion centro) {
         CD = centro;
-        pet = new ArrayList<Integer>();
-        gas = new ArrayList<Gasolinera>();
+        Peticiones = new ArrayList<IAPet>();
+        distanciaTotal = 0;
+        beneficioTotal = 0;
     }
-
 
     /*Operaciones*/
-    public boolean AddViaje(int dias, Gasolinera g, int i){
-        //"i" es la prioridad e indica si va a la posición 0 o 1
-        if(pet.size() >= 2 || gas.size() >= 2)
-            return false;
-        pet.add(i, dias);
-        gas.add(i, g);
+    public boolean AddPet(IAPet peticion){
+        int x = Peticiones.size();
+        if(x >= 10) return false; //Maximo viajes (5)
+        if(x%2 != 0)distanciaTotal -= calcular_dV((x-1));
+        Peticiones.add(peticion);
+        distanciaTotal += calcular_dV(x);
+        beneficioTotal += peticion.get_Ben();
         return true;
     }
 
-    public boolean DelViaje(int i){
-        if (i > 2) return false;
-        if (i == 2)
+    public IAPet DelPet(int i){ //0 <= i < Peticiones.size()
+        beneficioTotal -= Peticiones.get(i).get_Ben();
+        IAPet peticion = Peticiones.get(i);
+        int x = Peticiones.size();
+        if(i = x-1){
+
+        }
+        if(Peticiones.size()%2 == 0){
+
+        }
         pet.remove(i);
         gas.remove(i);
-        return true;
+        distance = getTotalDistance();
+        return peticion;
     }
 
     /*Getters/Funciones Auxiliares*/
-    public Distribucion getCD(){
-        return CD;
-    }
-
-    public Gasolinera getG(int i){
-        return gas.get(i);
-    }
-
-    public int getX(){
-        return CD.getCoordX();
-    }
-
-    public int getY(){
-        return CD.getCoordY();
-    }
-
     private int distCD_G(Distribucion c, Gasolinera g) { //Distance between a CD and a G
-        return Math.abs(c.getCoordX() - g.getCoordX()) - Math.abs(c.getCoordY() - g.getCoordY());
+        return Math.abs(c.getCoordX() - g.getCoordX()) + Math.abs(c.getCoordY() - g.getCoordY());
     }
 
     private int distG_G(Gasolinera G1, Gasolinera G2) { //Distance between two G
-        return Math.abs(G1.getCoordX() - G2.getCoordX()) - Math.abs(G1.getCoordY() - G2.getCoordY());
+        return Math.abs(G1.getCoordX() - G2.getCoordX()) + Math.abs(G1.getCoordY() - G2.getCoordY());
     }
 
-    public int getTotalDistance(){
-        if(gas.size() == 1) return 2*distCD_G(CD,gas.get(0));
-        else if(gas.size() == 2) return distCD_G(CD,gas.get(0)) + distG_G(gas.get(0),gas.get(1)) + distCD_G(CD,gas.get(1));
-        return 0;
+    private int calcular_dV(int i){ //Distancia del viaje [i,i+1] & i%2 = 0 & <= 0 < Peticiones.size()
+        Gasolinera g1 = (Peticiones.get(i)).get_Gas();
+        if(i == Peticiones.size() - 1) return 2*distCD_G(CD,g1);
+        else {
+            Gasolinera g2 = (Peticiones.get(i+1)).get_Gas()
+            return distCD_G(CD,g1) + distG_G(g1,g2) + distCD_G(CD,g2);
+        }
+        return -1;
     }
 
-    public boolean isFull(){
-        return (pet.size() == 2 && gas.size() == 2);
+    private int calcular_dT(){
+        int distance = 0;
+        for(int i = 0; i< Peticiones.size(); i+=2){
+           distance += calcular_dV(i);
+        }
+        return distance;
     }
-
-
 
     /*Check state of object*/
     public void estadoViaje(){
-        if (pet.size() > 0) System.out.println("      El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programado atender a G:" + "(" + gas.get(0).getCoordX() + "," + gas.get(0).getCoordY() + ")" + " por su petición de " +  pet.get(0) + "dias");
-        if (pet.size() > 1) System.out.println("      El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programado atender a G:" + "(" + gas.get(1).getCoordX() + "," + gas.get(1).getCoordY() + ")" + " por su petición de " +  pet.get(1) + "dias");
+        if (pet.size() > 0) System.out.println("      El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programado atender a G:" + "(" + gas.get(0).getCoordX() + "," + gas.get(0).getCoordY() + ")" + " por su petición de " +  pet.get(0) + " dias");
+        if (pet.size() > 1) System.out.println("      El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programado atender a G:" + "(" + gas.get(1).getCoordX() + "," + gas.get(1).getCoordY() + ")" + " por su petición de " +  pet.get(1) + " dias");
+        System.out.println("      Distancia del viaje: "+distance);
     }
-
-
-
-
-
 
 }
 
-/*private ArrayList<Integer,Gasolinera> pet = new ArrayList<Integer,Gasolinera>(2);*/
-    /* Constructor
-    public IAViajes(Distribucion centro, ArrayList<Integer> peticiones) {
-        CD = centro;
-        pet = peticiones;
-    }
-
-    public boolean AddPetition(int peticion, Gasolinera g){
-        // can't add a petition
-        if(pet.size() >= 2)
-            return false;
-        pet.add(peticion,g);
-        return true;
-    }*/

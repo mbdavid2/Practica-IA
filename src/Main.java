@@ -34,6 +34,7 @@ public class Main {
         map.printViajes();
         //Programamos 2 viajes nuevos
         map.ProgramarViaje(cd.get(1),gas.get(2),2); //CD1 atendera a la gasolinera 2 por su peticion de hace 2 dias (aquí porque sé que la Gas2 tiene una pet 2, pero esto hay que comprovarlo antes..)
+        map.printViajes();
         map.ProgramarViaje(cd.get(1),gas.get(0),0); //CD1 atendera a la gasolinera 0 por su peticion de hace 0 dias
         //map.printGas(0);
         map.printViajes();
