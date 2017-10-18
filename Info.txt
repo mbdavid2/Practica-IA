@@ -49,3 +49,13 @@ Queremos maximizar beneficio, minimizar perdidas, minimizar distancia:
 
 HEURISTICO(min) = perdidas + distancia recorrida - beneficios
 ________________________________________________________________________________________________________________________________
+
+    /*Check state of object*/
+    public void estadoViaje(){
+        System.out.println("El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programados los siguientes viajes:");
+        for (int i = 0; i < Peticiones.size(); ++i){
+            if(i%2 == 0) System.out.println("   Viaje " + (i%2)+1 + ":");
+            System.out.println("      " + ((i%2)+1) +". Atiende a G:" + "(" + Peticiones.get(i).get_Gas().getCoordX() + "," + Peticiones.get(i).get_Gas().getCoordY() + ")" + " por su petición de " + Peticiones.get(i).get_Dias() + " dias");
+        }
+        System.out.println("Distancia total del camión: " + distanciaTotal);
+    }
