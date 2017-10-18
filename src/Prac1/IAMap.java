@@ -54,24 +54,17 @@ public class IAMap {
 
 
     /******OPERADORES******/
-    public void AddViaje(int v, int p){
+    public boolean AddViaje(int v, int p){
         IAPet pet = PetNoAt.get(p);
         perd -= pet.get_Per();
         PetNoAt.remove(p);
-        Viajes.get(v).AddPet(pet);
+        return Viajes.get(v).AddPet(pet);
     }
 
-    public void SwapViaje(int v, int p1, int p2){
-        //Borra petición (y la añade a PetNoAt)
-        /*IAPet pet1 = Viajes.get(v).DelPet(p1);
-        PetNoAt.add(pet1);
-        perd += pet1.get_Per();
-
-        //Añade petición (y la borra de PetNoAt)
-        IAPet pet2 = PetNoAt.get(p2);
-        Viajes.get(v).AddPet(pet2);
-        PetNoAt.remove(p2);
-        perd -= pet2.get_Per();*/
+    public boolean SwapViaje(int i1, int j1, int i2, int j2){
+        IAPet p1 = Viajes.get(i1).getPetition(j1);
+        IAPet p2 =Viajes.get(i2).getPetition(j2);
+        return Viajes.get(i2).swapPet(j2,p1) && Viajes.get(i1).swapPet(j1,p2);
     }
 
 

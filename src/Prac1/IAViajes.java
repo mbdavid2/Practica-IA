@@ -25,6 +25,19 @@ public class IAViajes {
         distanciaTotal = 0;
     }
 
+    public IAPet getPetition(int i){
+        return Peticiones.get(i);
+    }
+
+    public boolean swapPet(int i, IAPet p){ //0 <= i < Peticiones.size()
+        distanciaTotal -= calcular_dV(i-(i%2));
+        beneficioTotal -= Peticiones.get(i).get_Ben();
+        Peticiones.set(i,p);
+        distanciaTotal += calcular_dV(i-(i%2));
+        beneficioTotal += p.get_Ben();
+        return distanciaTotal <= 640;
+    }
+
     /*Operaciones*/
     public boolean AddPet(IAPet peticion){
         int x = Peticiones.size();
@@ -33,7 +46,7 @@ public class IAViajes {
         Peticiones.add(peticion);
         distanciaTotal += calcular_dV(x);
         beneficioTotal += peticion.get_Ben();
-        return distanciaTotal > 640;
+        return distanciaTotal <= 640;
     }
 
     /*Getters/Funciones Auxiliares*/
