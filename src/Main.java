@@ -1,9 +1,6 @@
 import Prac1.IAMap;
-import Prac1.IAViajes;
 
 import IA.Gasolina.Gasolineras;
-import IA.Gasolina.Gasolinera;
-import IA.Gasolina.Distribucion;
 import IA.Gasolina.CentrosDistribucion;
 
 import aima.search.framework.GraphSearch;
@@ -11,9 +8,9 @@ import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.informed.AStarSearch;
+import aima.search.informed.HillClimbingSearch;
 
 import java.util.Iterator;
-import java.util.ArrayList;
 import java.util.Properties;
 
 
@@ -29,16 +26,14 @@ public class Main {
 
         /*Pruebas: Estado empieza vacio*/
         map.AddViaje(1,3);
+        map.AddViaje(1,8);
+        map.AddViaje(1,7);
+        map.AddViaje(2, 5);
 
         map.printViajes();
 
-
-
-
-
-
-        //Estas cosas son del IAProb5, las dejo por si acaso
 /*
+
         // Create the Problem object
         Problem p = new  Problem(board,
                 new ProbIA5SuccesorFunction(),
