@@ -29,6 +29,11 @@ public class IAViajes {
         return Peticiones.get(i);
     }
 
+    public int getDistanciaTotal(){return distanciaTotal;}
+    public int getBeneficioTotal(){return beneficioTotal;}
+
+    public int size(){return Peticiones.size();}
+
     public boolean swapPet(int i, IAPet p){ //0 <= i < Peticiones.size()
         distanciaTotal -= calcular_dV(i-(i%2));
         beneficioTotal -= Peticiones.get(i).get_Ben();

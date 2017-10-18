@@ -6,9 +6,8 @@ import IA.Gasolina.Distribucion;
 import IA.Gasolina.Gasolinera;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+
 
 public class IAMap {
 
@@ -20,7 +19,7 @@ public class IAMap {
 
     private ArrayList<IAPet> PetNoAt;
 
-    private int perd; //Perdidas totales de pet no atendidas
+    private int perdidas; //Perdidas totales de pet no atendidas
 
     /****Constructor estado vacio****/
     public IAMap(CentrosDistribucion centros, Gasolineras gasolineras) {
@@ -29,7 +28,7 @@ public class IAMap {
         Viajes = new ArrayList<IAViajes>();
         Iterator c = centros.iterator();
         //Un IAViajes para cada CD
-        while (c.hasNext()){
+        while (c.hasNext()) {
             Viajes.add(new IAViajes((Distribucion) c.next()));
         }
         //Guardar PetNoAt//
@@ -39,24 +38,30 @@ public class IAMap {
         Iterator aux;
         IAPet pet;
         Gasolinera g;
-        while(t.hasNext()) {
+        while (t.hasNext()) {
             g = (Gasolinera) t.next();
             petaux = g.getPeticiones();
             aux = petaux.iterator();
             while (aux.hasNext()) {
                 pet = new IAPet(g, (Integer) aux.next());
                 PetNoAt.add(pet);
-                perd -= pet.get_Per();
+                perdidas += pet.get_Per();
             }
         }
         System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
     }
 
-
+    public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd )  {
+        cd = c;
+        gas = g;
+        Viajes = V;
+        PetNoAt = P;
+        perdidas = perd;
+    }
     /******OPERADORES******/
     public boolean AddViaje(int v, int p){
         IAPet pet = PetNoAt.get(p);
-        perd -= pet.get_Per();
+        perdidas -= pet.get_Per();
         PetNoAt.remove(p);
         return Viajes.get(v).AddPet(pet);
     }
@@ -65,6 +70,19 @@ public class IAMap {
         IAPet p1 = Viajes.get(i1).getPetition(j1);
         IAPet p2 =Viajes.get(i2).getPetition(j2);
         return Viajes.get(i2).swapPet(j2,p1) && Viajes.get(i1).swapPet(j1,p2);
+    }
+
+    public int mapLength(){return Viajes.size();}
+    public int petLength(){return PetNoAt.size();}
+    public int sizeViajes(int i){return Viajes.get(i).size();}
+
+    public double heuristic(){
+        int h=0;
+        for (IAViajes v: Viajes) {
+            h += v.getDistanciaTotal()*2; //1km 2 euros
+            h -= v.getBeneficioTotal();
+        }
+        return h + perdidas;
     }
 
 
@@ -113,6 +131,10 @@ public class IAMap {
             System.out.println("ESTADO DEL VIAJE: " + v);
             v.estadoViaje();
         }
+    }
+
+    public IAMap copyState(){
+        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas);
     }
 }
 

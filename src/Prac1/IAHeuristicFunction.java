@@ -9,14 +9,4 @@ public class IAHeuristicFunction implements HeuristicFunction {
         return ((IAMap) n).heuristic();
     }
 
-    //ESTO VA EN IAMAP!!!
-    /* Heuristic function */
-    public double heuristic(){
-        int h=0;
-        for (IAViajes v: Viajes) {
-            h += v.getDist()*2; //1km 2 euros
-            h -= v.getBen();
-        }
-        return h + perdidas;
-    }
 }
