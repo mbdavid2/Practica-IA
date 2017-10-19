@@ -18,9 +18,9 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CentrosDistribucion cd = new CentrosDistribucion(10, 1, 10);
+        CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234);
 
-        Gasolineras gas = new Gasolineras(30, 10);
+        Gasolineras gas = new Gasolineras(100, 1234);
 
         /****ESTADO INICIAL****/
         IAMap map = new IAMap(cd, gas);

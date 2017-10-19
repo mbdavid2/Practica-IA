@@ -99,6 +99,15 @@ public class IAMap {
         return h + perdidas;
     }
 
+    public double benf(){
+        int h=0;
+        for (IAViajes v: Viajes) {
+            h -= v.getDistanciaTotal()*2; //1km 2 euros
+            h += v.getBeneficioTotal();
+        }
+        return h;
+    }
+
     /****PRINTS****/
     public void printGas(int j){
         if (j == 0) {

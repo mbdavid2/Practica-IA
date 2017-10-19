@@ -15,7 +15,8 @@ public class IASuccesorFunction implements SuccessorFunction{
             for(int p = 0; p < board.petLength(); ++p) {
                 tmp = board.copyState();
                 if (tmp.AddViaje(cd1, p)) retval.add(new Successor("Added " + p + " to " + cd1, tmp));
-                //System.out.println("-Added " + p + " to " + cd1);
+                System.out.println("-Added " + p + " to " + cd1);
+                System.out.println("-->GetBen " + tmp.benf());
             }
         }
         /****SWAP****/
