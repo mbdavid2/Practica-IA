@@ -8,7 +8,6 @@ import IA.Gasolina.Gasolinera;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
 public class IAMap {
 
     static CentrosDistribucion cd;
@@ -56,9 +55,15 @@ public class IAMap {
     public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd )  {
         cd = c;
         gas = g;
-        Viajes = V;
-        PetNoAt = P;
         perdidas = perd;
+        Viajes = new ArrayList<IAViajes>();
+        for(int i = 0; i < V.size(); i++) {
+            Viajes.add(V.get(i).copyViaje());
+        }
+        PetNoAt = new ArrayList<IAPet>();
+        for(int i = 0; i < P.size(); i++){
+            PetNoAt.add(P.get(i));
+        }
     }
 
     public IAMap copyState(){

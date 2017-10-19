@@ -15,7 +15,7 @@ public class IASuccesorFunction implements SuccessorFunction{
             for(int p = 0; p < board.petLength(); ++p) {
                 tmp = board.copyState();
                 if (tmp.AddViaje(cd1, p)) retval.add(new Successor("Added " + p + " to " + cd1, tmp));
-                System.out.println("-Added " + p + " to " + cd1);
+                //System.out.println("-Added " + p + " to " + cd1);
             }
         }
         /****SWAP****/
@@ -27,7 +27,7 @@ public class IASuccesorFunction implements SuccessorFunction{
                         else {
                             tmp = board.copyState();
                             if(tmp.SwapViaje(i1,j1,i2,j2)) retval.add(new Successor("Swapped (" + i1 + ","+j1+ ") with (" +i2 + "," +j2+ ")", tmp));
-                            System.out.println("Swapped (" + i1 + ","+j1+ ") with (" +i2 + "," +j2+ ")");
+                            //System.out.println("Swapped (" + i1 + ","+j1+ ") with (" +i2 + "," +j2+ ")");
                         }
                     }
                 }

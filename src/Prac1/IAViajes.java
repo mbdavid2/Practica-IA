@@ -24,6 +24,17 @@ public class IAViajes {
         Peticiones = new ArrayList<IAPet>();
         distanciaTotal = 0;
     }
+    /****CLONE****/
+    public IAViajes(Distribucion c, ArrayList<IAPet> p, int d, int b){
+        CD =c;
+        Peticiones = (ArrayList<IAPet>)p.clone();
+        distanciaTotal = d;
+        beneficioTotal = b;
+    }
+
+    public IAViajes copyViaje(){
+        return new IAViajes(this.CD,this.Peticiones,this.distanciaTotal,this.beneficioTotal);
+    }
 
     /****GETTERS****/
     public IAPet getPetition(int i){return Peticiones.get(i); }
