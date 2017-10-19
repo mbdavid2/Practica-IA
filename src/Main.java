@@ -1,62 +1,56 @@
 import Prac1.IAMap;
-
 import IA.Gasolina.Gasolineras;
 import IA.Gasolina.CentrosDistribucion;
+import Prac1.IAGoalTest;
+import Prac1.IAHeuristicFunction;
+import Prac1.IASuccesorFunction;
 
-import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
-import aima.search.informed.AStarSearch;
 import aima.search.informed.HillClimbingSearch;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CentrosDistribucion cd = new CentrosDistribucion(10, 1,10);
+        CentrosDistribucion cd = new CentrosDistribucion(10, 1, 10);
 
         Gasolineras gas = new Gasolineras(30, 10);
 
-        //Creación estado inicial (vacío)
+        /****ESTADO INICIAL****/
         IAMap map = new IAMap(cd, gas);
 
         /*Pruebas: Estado empieza vacio*/
-        map.AddViaje(1,3);
+        /*map.AddViaje(1,3);
         map.AddViaje(1,8);
         map.AddViaje(1,7);
         map.AddViaje(2, 5);
 
-        map.printViajes();
+        map.printViajes();*/
 
-/*
 
-        // Create the Problem object
-        Problem p = new  Problem(board,
-                new ProbIA5SuccesorFunction(),
-                new ProbIA5GoalTest(),
-                new ProbIA5HeuristicFunction());
+        /****CREATE THE PROBLEM OBJECT****/
+        Problem p = new Problem(map,
+                new IASuccesorFunction(),
+                new IAGoalTest(),
+                new IAHeuristicFunction());
 
-        // Instantiate the search algorithm
-        // AStarSearch(new GraphSearch()) or IterativeDeepeningAStarSearch()
-        Search alg = new AStarSearch(new GraphSearch());
+        /****INSTANTIATE THE SEARCH ALGORITHM****/
+        Search alg = new HillClimbingSearch();
 
-        // Instantiate the SearchAgent object
+        /****INSTANTIATE THE SEARCHAGENT OBJECT****/
         SearchAgent agent = new SearchAgent(p, alg);
 
-        // We print the results of the search
+        /****RESULTS****/
         System.out.println();
         printActions(agent.getActions());
         printInstrumentation(agent.getInstrumentation());
-
-        // You can access also to the goal state using the
-        // method getGoalState of class Search
-
     }
-
 
     private static void printInstrumentation(Properties properties) {
         Iterator keys = properties.keySet().iterator();
@@ -74,6 +68,6 @@ public class Main {
             System.out.println(action);
         }
     }
-    */
-    }
 }
+
+

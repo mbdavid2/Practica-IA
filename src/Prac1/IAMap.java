@@ -21,7 +21,7 @@ public class IAMap {
 
     private int perdidas; //Perdidas totales de pet no atendidas
 
-    /****Constructor estado vacio****/
+    /****CONSTRUCTORES****/
     public IAMap(CentrosDistribucion centros, Gasolineras gasolineras) {
         cd = centros;
         gas = gasolineras;
@@ -49,6 +49,8 @@ public class IAMap {
             }
         }
         System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
+        printGas(0);
+        printViajes();
     }
 
     public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd )  {
@@ -58,6 +60,16 @@ public class IAMap {
         PetNoAt = P;
         perdidas = perd;
     }
+
+    public IAMap copyState(){
+        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas);
+    }
+
+    /****GETTERS****/
+    public int mapLength(){return Viajes.size();}
+    public int petLength(){return PetNoAt.size();}
+    public int sizeViajes(int i){return Viajes.get(i).size();}
+
     /******OPERADORES******/
     public boolean AddViaje(int v, int p){
         IAPet pet = PetNoAt.get(p);
@@ -72,10 +84,7 @@ public class IAMap {
         return Viajes.get(i2).swapPet(j2,p1) && Viajes.get(i1).swapPet(j1,p2);
     }
 
-    public int mapLength(){return Viajes.size();}
-    public int petLength(){return PetNoAt.size();}
-    public int sizeViajes(int i){return Viajes.get(i).size();}
-
+    /****HEURISTICO****/
     public double heuristic(){
         int h=0;
         for (IAViajes v: Viajes) {
@@ -85,18 +94,10 @@ public class IAMap {
         return h + perdidas;
     }
 
-
-    /*
-        System.out.println("->Número de peticiones aún no atendidas:  " + PetNoAt.size());
-        System.out.println("->Pérdidas por no atenderlas:  " + perd);
-        System.out.println("");
-    }*/
-
-
+    /****PRINTS****/
     public void printGas(int j){
         if (j == 0) {
             Iterator it = PetNoAt.iterator();
-            int i = 0;
             IAPet pet;
             while (it.hasNext()) {
                 pet = (IAPet) it.next();
@@ -133,8 +134,6 @@ public class IAMap {
         }
     }
 
-    public IAMap copyState(){
-        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas);
-    }
+
 }
 

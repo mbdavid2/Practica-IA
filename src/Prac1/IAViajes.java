@@ -18,22 +18,21 @@ public class IAViajes {
 
     private int beneficioTotal;
 
-    /*Constructor*/
+    /****CONSTRUCTOR****/
     public IAViajes(Distribucion centro) {
         CD = centro;
         Peticiones = new ArrayList<IAPet>();
         distanciaTotal = 0;
     }
 
-    public IAPet getPetition(int i){
-        return Peticiones.get(i);
-    }
-
+    /****GETTERS****/
+    public IAPet getPetition(int i){return Peticiones.get(i); }
     public int getDistanciaTotal(){return distanciaTotal;}
     public int getBeneficioTotal(){return beneficioTotal;}
-
     public int size(){return Peticiones.size();}
 
+
+    /****OPERADORES****/
     public boolean swapPet(int i, IAPet p){ //0 <= i < Peticiones.size()
         distanciaTotal -= calcular_dV(i-(i%2));
         beneficioTotal -= Peticiones.get(i).get_Ben();
@@ -43,7 +42,6 @@ public class IAViajes {
         return distanciaTotal <= 640;
     }
 
-    /*Operaciones*/
     public boolean AddPet(IAPet peticion){
         int x = Peticiones.size();
         if(x >= 10) return false; //Maximo viajes (5)
@@ -54,7 +52,7 @@ public class IAViajes {
         return distanciaTotal <= 640;
     }
 
-    /*Getters/Funciones Auxiliares*/
+    /****AUXILIAR FUNCTIONS****/
     private int distCD_G(Distribucion c, Gasolinera g) { //Distance between a CD and a G
         return Math.abs(c.getCoordX() - g.getCoordX()) + Math.abs(c.getCoordY() - g.getCoordY());
     }
@@ -72,7 +70,7 @@ public class IAViajes {
         }
     }
 
-    /*Check state of object*/
+    /****PRINTS****/
     public void estadoViaje(){
         System.out.println("El CD:" + "(" + CD.getCoordX() + "," + CD.getCoordY() + ")" + " tiene programados los siguientes viajes:");
         for (int i = 0; i < Peticiones.size(); ++i){
