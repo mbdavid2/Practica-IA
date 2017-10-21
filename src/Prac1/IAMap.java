@@ -108,6 +108,14 @@ public class IAMap {
         return h;
     }
 
+    public double km(){
+        int h=0;
+        for (IAViajes v: Viajes) {
+            h += v.getDistanciaTotal()*2; //1km 2 euros
+        }
+        return h;
+    }
+
     /****PRINTS****/
     public void printGas(int j){
         if (j == 0) {

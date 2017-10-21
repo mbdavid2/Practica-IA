@@ -23,6 +23,7 @@ public class IAViajes {
         CD = centro;
         Peticiones = new ArrayList<IAPet>();
         distanciaTotal = 0;
+        beneficioTotal = 0;
     }
     /****CLONE****/
     public IAViajes(Distribucion c, ArrayList<IAPet> p, int d, int b){
@@ -56,10 +57,12 @@ public class IAViajes {
     public boolean AddPet(IAPet peticion){
         int x = Peticiones.size();
         if(x >= 10) return false; //Maximo viajes (5)
+        //System.out.println("Dist:" + distanciaTotal + ", Ben: " + beneficioTotal);
         if(x%2 != 0) distanciaTotal -= calcular_dV((x-1));
         Peticiones.add(peticion);
         distanciaTotal += calcular_dV(x);
         beneficioTotal += peticion.get_Ben();
+        //System.out.println("Dist:" + distanciaTotal + ", Ben: " + beneficioTotal);
         return distanciaTotal <= 640;
     }
 
@@ -74,6 +77,7 @@ public class IAViajes {
 
     private int calcular_dV(int i){ //Distancia del viaje [i,i+1] & i%2 = 0 & <= 0 < Peticiones.size()
         Gasolinera g1 = (Peticiones.get(i)).get_Gas();
+        //if (CD.getCoordX() == g1.getCoordX() && CD.getCoordY() == g1.getCoordY()) System.out.println("Estan al mateix lloc!!!!!");
         if(i == Peticiones.size() - 1) return 2*distCD_G(CD,g1);
         else {
             Gasolinera g2 = (Peticiones.get(i+1)).get_Gas();
@@ -88,6 +92,6 @@ public class IAViajes {
             if(i%2 == 0) System.out.println("   Viaje " + (i%2)+1 + ":");
             System.out.println("      " + ((i%2)+1) +". Atiende a G:" + "(" + Peticiones.get(i).get_Gas().getCoordX() + "," + Peticiones.get(i).get_Gas().getCoordY() + ")" + " por su petición de " + Peticiones.get(i).get_Dias() + " dias");
         }
-        System.out.println("Distancia total del camión: " + distanciaTotal);
+        System.out.println("Distancia total del CD: " + distanciaTotal + ".  Beneficio total del CD: " + beneficioTotal);
     }
 }
