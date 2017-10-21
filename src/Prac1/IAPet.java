@@ -42,7 +42,7 @@ public class IAPet {
 
     /****AUXILIAR FUNCTIONS****/
     private int calc_Ben(int dias){
-        if (dias == 0) return 1200;
+        if (dias == 0) return 1020;
         return 1000 - 10*((int) Math.pow(2, dias));
     }
 
