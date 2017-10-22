@@ -24,16 +24,17 @@ public class IASuccesorFunction implements SuccessorFunction{
             for(int j1 = 0; j1 < board.sizeViajes(i1); ++j1){
                 for(int i2 = i1; i2 < board.mapLength(); ++i2){
                     for(int j2 = 0; j2 < board.sizeViajes(i2); ++j2){
-                        if(i1 == i2 && (j1 == j2 || (j1%2 == 0 && j2 == j1+1)));
+                        if(i1 == i2 && (j2 <= j1 || (j1%2 == 0 && j2 == j1+1)));
                         else {
                             tmp = board.copyState();
                             if(tmp.SwapViaje(i1,j1,i2,j2)) retval.add(new Successor("Swapped (" + i1 + ","+j1+ ") with (" +i2 + "," +j2+ ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf(), tmp));
-                            //System.out.println("Swapped (" + i1 + ","+j1+ ") with (" +i2 + "," +j2+ ")");
+                            //System.out.println("Try: Swapped (" + i1 + ","+j1+ ") with (" +i2 + "," +j2+ ")");
                         }
                     }
                 }
             }
         }
+        //System.out.println(" ");
         return (retval);
     }
 }

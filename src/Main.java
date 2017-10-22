@@ -26,7 +26,7 @@ public class Main {
         Gasolineras gas = new Gasolineras(100, 1234);
 
         /****ESTADO INICIAL****/
-        IAMap map = new IAMap(cd, gas, true);
+        IAMap map = new IAMap(cd, gas, false);
 
         /****CREATE THE PROBLEM OBJECT****/
         Problem p = new Problem(map,
