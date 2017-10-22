@@ -60,7 +60,7 @@ public class IAViajes {
         //System.out.println("Dist:" + distanciaTotal + ", Ben: " + beneficioTotal);
         if(x%2 != 0) distanciaTotal -= calcular_dV((x-1));
         Peticiones.add(peticion);
-        distanciaTotal += calcular_dV(x);
+        distanciaTotal += calcular_dV(x-(x%2));
         beneficioTotal += peticion.get_Ben();
         //System.out.println("Dist:" + distanciaTotal + ", Ben: " + beneficioTotal);
         return distanciaTotal <= 640;

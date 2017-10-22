@@ -49,7 +49,7 @@ public class IAMap {
             Viajes.add(new IAViajes((Distribucion) c.next()));
         }
 
-        /*Alternativa: Rellenarlo de peticiones "aleatoriamente"*/
+        //Alternativa: Rellenarlo de peticiones "aleatoriamente"
         if (rellenar) {
             int i = 0;
             int j = 0;
@@ -63,6 +63,24 @@ public class IAMap {
             System.out.println("*Se ha creado el estado incial IAMap con peticiones asignadas*");
         }
         else System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
+
+        /*
+        //Alternativa: Rellenarlo de peticiones "aleatoriamente"
+        if (rellenar) {
+            int i = 0;
+            int j = 0;
+            while (i < Viajes.size() && j < PetNoAt.size()) {
+                if (j % 10 == 0) i++; //cada 10 peticiones, siguiente viaje
+                Viajes.get(i).AddPet(PetNoAt.get(j));
+                perdidas -= PetNoAt.get(j).get_Per();
+                PetNoAt.remove(j);
+                j++;
+            }
+            System.out.println("*Se ha creado el estado incial IAMap con peticiones asignadas*");
+        }
+        else System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
+        */
+
         //printGas(0);
         printViajes();
     }
@@ -118,10 +136,10 @@ public class IAMap {
     public double benf(){
         int h=0;
         for (IAViajes v: Viajes) {
-            h -= v.getDistanciaTotal()*2; //1km 2 euros
             h += v.getBeneficioTotal();
+            h -= v.getDistanciaTotal()*2; //1km 2 euro 
         }
-        return h - perdidas;
+        return h;
     }
 
     public double km(){
