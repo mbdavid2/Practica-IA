@@ -19,12 +19,14 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+        double time = System.currentTimeMillis();
+
         CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234);
 
         Gasolineras gas = new Gasolineras(100, 1234);
 
         /****ESTADO INICIAL****/
-        IAMap map = new IAMap(cd, gas);
+        IAMap map = new IAMap(cd, gas, true);
 
         /****CREATE THE PROBLEM OBJECT****/
         Problem p = new Problem(map,
@@ -42,6 +44,8 @@ public class Main {
         System.out.println();
         printActions(agent.getActions());
         printInstrumentation(agent.getInstrumentation());
+
+        System.out.println("->Execution time: " +  (System.currentTimeMillis() - time));
     }
 
     private static void printInstrumentation(Properties properties) {

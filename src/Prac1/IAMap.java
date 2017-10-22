@@ -21,15 +21,11 @@ public class IAMap {
     private int perdidas; //Perdidas totales de pet no atendidas
 
     /****CONSTRUCTORES****/
-    public IAMap(CentrosDistribucion centros, Gasolineras gasolineras) {
+    public IAMap(CentrosDistribucion centros, Gasolineras gasolineras, boolean rellenar) {
         cd = centros;
         gas = gasolineras;
         Viajes = new ArrayList<IAViajes>();
-        Iterator c = centros.iterator();
-        //Un IAViajes para cada CD
-        while (c.hasNext()) {
-            Viajes.add(new IAViajes((Distribucion) c.next()));
-        }
+
         //Guardar PetNoAt//
         PetNoAt = new ArrayList<IAPet>();
         ArrayList<Integer> petaux;
@@ -47,8 +43,27 @@ public class IAMap {
                 perdidas += pet.get_Per();
             }
         }
-        System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
-        printGas(0);
+        //Estado inicial vacio
+        Iterator c = centros.iterator();
+        while (c.hasNext()) {
+            Viajes.add(new IAViajes((Distribucion) c.next()));
+        }
+
+        /*Alternativa: Rellenarlo de peticiones "aleatoriamente"*/
+        if (rellenar) {
+            int i = 0;
+            int j = 0;
+            while (i < Viajes.size() && j < PetNoAt.size()) {
+                if (j % 10 == 0) i++; //cada 10 peticiones, siguiente viaje
+                Viajes.get(i).AddPet(PetNoAt.get(j));
+                perdidas -= PetNoAt.get(j).get_Per();
+                PetNoAt.remove(j);
+                j++;
+            }
+            System.out.println("*Se ha creado el estado incial IAMap con peticiones asignadas*");
+        }
+        else System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
+        //printGas(0);
         printViajes();
     }
 
@@ -96,7 +111,8 @@ public class IAMap {
             h += v.getDistanciaTotal()*2; //1km 2 euros
             h -= v.getBeneficioTotal();
         }
-        return h + perdidas;
+        return h - perdidas;
+        //return h;
     }
 
     public double benf(){
@@ -105,7 +121,7 @@ public class IAMap {
             h -= v.getDistanciaTotal()*2; //1km 2 euros
             h += v.getBeneficioTotal();
         }
-        return h;
+        return h - perdidas;
     }
 
     public double km(){
