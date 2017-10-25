@@ -48,7 +48,7 @@ public class Main {
         printInstrumentation(agent.getInstrumentation());
 
         System.out.println("->Execution time: " +  (System.currentTimeMillis() - time));
-        
+
     }
 
     private static void printInstrumentation(Properties properties) {
@@ -68,5 +68,3 @@ public class Main {
         }
     }
 }
-
-
