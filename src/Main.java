@@ -20,7 +20,7 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        double time = System.currentTimeMillis();
+        //double time = System.currentTimeMillis();
 
         CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234);
 
@@ -47,8 +47,8 @@ public class Main {
         printActions(agent.getActions());
         printInstrumentation(agent.getInstrumentation());
 
-        System.out.println("->Execution time: " +  (System.currentTimeMillis() - time));
-
+        //System.out.println("->Execution time: " +  (System.currentTimeMillis() - time));
+        //NO VAAAA
     }
 
     private static void printInstrumentation(Properties properties) {
