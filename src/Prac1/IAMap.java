@@ -19,12 +19,14 @@ public class IAMap {
     private ArrayList<IAPet> PetNoAt;
 
     private int perdidas; //Perdidas totales de pet no atendidas
+    private int petAtendidas;
 
     /****CONSTRUCTORES****/
     public IAMap(CentrosDistribucion centros, Gasolineras gasolineras, boolean rellenar) {
         cd = centros;
         gas = gasolineras;
         Viajes = new ArrayList<IAViajes>();
+        petAtendidas = 0;
 
         //Guardar PetNoAt//
         PetNoAt = new ArrayList<IAPet>();
@@ -85,10 +87,11 @@ public class IAMap {
         printViajes();
     }
 
-    public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd )  {
+    public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd, int petAten)  {
         cd = c;
         gas = g;
         perdidas = perd;
+        petAtendidas = petAten;
         Viajes = new ArrayList<IAViajes>();
         for(int i = 0; i < V.size(); i++) {
             Viajes.add(V.get(i).copyViaje());
@@ -100,19 +103,21 @@ public class IAMap {
     }
 
     public IAMap copyState(){
-        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas);
+        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas,petAtendidas);
     }
 
     /****GETTERS****/
     public int mapLength(){return Viajes.size();}
     public int petLength(){return PetNoAt.size();}
     public int sizeViajes(int i){return Viajes.get(i).size();}
+    public int getPetAtendidas() {return petAtendidas;}
 
     /******OPERADORES******/
     public boolean AddViaje(int v, int p){
         IAPet pet = PetNoAt.get(p);
         perdidas -= pet.get_Per();
         PetNoAt.remove(p);
+        petAtendidas += 1;
         return Viajes.get(v).AddPet(pet);
     }
 

@@ -37,7 +37,7 @@ public class Main {
 
         /****INSTANTIATE THE SEARCH ALGORITHM****/
         //Search alg = new HillClimbingSearch();
-        Search alg = new SimulatedAnnealingSearch(1000,10,5,0.01);
+        Search alg = new SimulatedAnnealingSearch(200,10,5,0.01);
 
         /****INSTANTIATE THE SEARCHAGENT OBJECT****/
         SearchAgent agent = new SearchAgent(p, alg);
@@ -63,7 +63,7 @@ public class Main {
 
     private static void printActions(List actions) {
         for (int i = 0; i < actions.size(); i++) {
-            String action = (String) actions.get(i);
+            String action = (String)actions.get(i);
             System.out.println(action);
         }
     }
