@@ -4,6 +4,7 @@ import IA.Gasolina.CentrosDistribucion;
 import Prac1.IAGoalTest;
 import Prac1.IAHeuristicFunction;
 import Prac1.IASuccesorFunction;
+import Prac1.IASuccesorSA;
 
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
@@ -30,12 +31,13 @@ public class Main {
 
         /****CREATE THE PROBLEM OBJECT****/
         Problem p = new Problem(map,
-                new IASuccesorFunction(),
+                new IASuccesorSA(),
                 new IAGoalTest(),
                 new IAHeuristicFunction());
 
         /****INSTANTIATE THE SEARCH ALGORITHM****/
-        Search alg = new HillClimbingSearch();
+        //Search alg = new HillClimbingSearch();
+        Search alg = new SimulatedAnnealingSearch(1000,10,5,0.01);
 
         /****INSTANTIATE THE SEARCHAGENT OBJECT****/
         SearchAgent agent = new SearchAgent(p, alg);
@@ -46,6 +48,7 @@ public class Main {
         printInstrumentation(agent.getInstrumentation());
 
         System.out.println("->Execution time: " +  (System.currentTimeMillis() - time));
+        
     }
 
     private static void printInstrumentation(Properties properties) {

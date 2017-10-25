@@ -121,6 +121,15 @@ public class IAMap {
         IAPet p2 =Viajes.get(i2).getPetition(j2);
         return Viajes.get(i2).swapPet(j2,p1) && Viajes.get(i1).swapPet(j1,p2);
     }
+    
+    public boolean SwapPets(int i1, int j1, int p){
+           IAPet p1 = Viajes.get(i1).getPetition(j1);
+           perdidas += p1.get_Per();
+           IAPet p2 = PetNoAt.get(p);
+           perdidas -= p2.get_Per();
+           PetNoAt.set(p,p1);
+           return Viajes.get(i1).swapPet(j1, p2);
+    }
 
     /****HEURISTICO****/
     public double heuristic(){
