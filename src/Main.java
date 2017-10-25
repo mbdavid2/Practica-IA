@@ -15,40 +15,59 @@ import aima.search.informed.SimulatedAnnealingSearch;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-
+import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        //double time = System.currentTimeMillis();
+        /****Parametros para Experimentos****/
+        int seedG = randInt(1, 9999);
+        int seedCD = randInt(1, 9999);
+        int ncd = 10;
+        int ngas = 100;
+        boolean rellenar = false;
+        boolean HillClimb = true;
+        /////////////////////////////////////
 
-        CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234);
+        double time = System.currentTimeMillis();
 
-        Gasolineras gas = new Gasolineras(100, 1234);
+        CentrosDistribucion cd = new CentrosDistribucion(ncd, 1, seedG);
+        Gasolineras gas = new Gasolineras(ngas, seedCD);
 
         /****ESTADO INICIAL****/
-        IAMap map = new IAMap(cd, gas, false);
+        IAMap map = new IAMap(cd, gas, rellenar);
 
         /****CREATE THE PROBLEM OBJECT****/
-        Problem p = new Problem(map,
-                new IASuccesorSA(),
-                new IAGoalTest(),
-                new IAHeuristicFunction());
+        Problem p;
+        if (HillClimb){
+            p = new Problem(map,
+                    new IASuccesorFunction(),
+                    new IAGoalTest(),
+                    new IAHeuristicFunction());
+        }
+        else {
+            p = new Problem(map,
+                    new IASuccesorSA(),
+                    new IAGoalTest(),
+                    new IAHeuristicFunction());
+        }
 
         /****INSTANTIATE THE SEARCH ALGORITHM****/
-        //Search alg = new HillClimbingSearch();
-        Search alg = new SimulatedAnnealingSearch(200,10,5,0.01);
+        Search alg;
+        if (HillClimb) alg = new HillClimbingSearch();
+        else alg = new SimulatedAnnealingSearch(1000,10,5,0.01);
 
         /****INSTANTIATE THE SEARCHAGENT OBJECT****/
         SearchAgent agent = new SearchAgent(p, alg);
 
         /****RESULTS****/
         System.out.println();
-        printActions(agent.getActions());
+        if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
         printInstrumentation(agent.getInstrumentation());
 
-        //System.out.println("->Execution time: " +  (System.currentTimeMillis() - time));
-        //NO VAAAA
+        System.out.println("Time: " +  (System.currentTimeMillis() - time));
+        System.out.println("Seeds: " +  seedCD + "_" + seedG);
+
     }
 
     private static void printInstrumentation(Properties properties) {
@@ -63,8 +82,26 @@ public class Main {
 
     private static void printActions(List actions) {
         for (int i = 0; i < actions.size(); i++) {
-            String action = (String)actions.get(i);
+            String action = (String) actions.get(i);
             System.out.println(action);
         }
+
+    }
+
+    public static int randInt(int min, int max) {
+
+        // NOTE: This will (intentionally) not run as written so that folks
+        // copy-pasting have to think about how to initialize their
+        // Random instance.  Initialization of the Random instance is outside
+        // the main scope of the question, but some decent options are to have
+        // a field that is initialized once and then re-used as needed or to
+        // use ThreadLocalRandom (if using at least Java 1.7).
+        Random rand = new Random();
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
     }
 }
