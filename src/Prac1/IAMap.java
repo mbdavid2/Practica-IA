@@ -62,9 +62,9 @@ public class IAMap {
                 PetNoAt.remove(j);
                 j++;
             }
-            System.out.println("*Se ha creado el estado incial IAMap con peticiones asignadas*");
+            //System.out.println("*Se ha creado el estado incial IAMap con peticiones asignadas*");
         }
-        else System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
+        //else System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
 
         /*
         //Alternativa: Rellenarlo de peticiones "aleatoriamente"
@@ -84,7 +84,7 @@ public class IAMap {
         */
 
         //printGas(0);
-        printViajes();
+        //printViajes();
     }
 
     public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd, int petAten)  {
