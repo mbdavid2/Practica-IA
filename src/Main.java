@@ -27,7 +27,7 @@ public class Main {
         int ngas = 100;
         boolean rellenar = false;
         boolean HillClimb = true;
-        int numexperiments = 10;
+        int numexperiments = 20;
         /////////////////////////////////////
 
         //Execució
@@ -65,12 +65,13 @@ public class Main {
             SearchAgent agent = new SearchAgent(p, alg);
 
             /****RESULTS****/
-            System.out.println();
-            if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
+            //System.out.println();
+            double t = (System.currentTimeMillis() - time);
+            if (HillClimb) printActions(agent.getActions(), t); //Si es SA esto peta xD
             printInstrumentation(agent.getInstrumentation());
 
-            System.out.println("Time: " + (System.currentTimeMillis() - time));
-            System.out.println("Seeds: " + seedCD + "_" + seedG);
+            //System.out.println("Time: " + (System.currentTimeMillis() - time));
+            //System.out.println("Seeds: " + seedCD + "_" + seedG);
     }
 
     }
@@ -80,19 +81,21 @@ public class Main {
         while (keys.hasNext()) {
             String key = (String) keys.next();
             String property = properties.getProperty(key);
-            System.out.println(key + " : " + property);
+            //System.out.println(key + " : " + property);
+            System.out.println(" " + property);
         }
 
     }
 
-    private static void printActions(List actions) {
+    private static void printActions(List actions, double t) {
         /*for (int i = 0; i < actions.size(); i++) {
             String action = (String) actions.get(i);
             System.out.println(action);
         }
         //Solo muestra ultimo??¿*/
         String action = (String) actions.get(actions.size()-1);
-        System.out.println(action);
+        System.out.print(action + " " + t);
+
     }
 
     public static int randInt(int min, int max) {
