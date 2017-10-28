@@ -117,7 +117,7 @@ public class IAMap {
             h += v.getBeneficioTotal();
             h -= v.getDistanciaTotal()*2; //1km 2 euro
         }
-        return h;
+        return h - perdidas;
     }
     public double km(){
         int h=0;

@@ -38,7 +38,7 @@ public class Main {
             for (int i = 0; i < numexperiments; i++) {
                 int seedG = seedsG.get(i);
                 int seedCD = seedsCD.get(i);
-                System.out.println("hola: " + seedCD + seedG);
+                //System.out.println("hola: " + seedCD + seedG);
                 double time = System.currentTimeMillis();
                 CentrosDistribucion cd = new CentrosDistribucion(ncd, 1, seedG);
                 Gasolineras gas = new Gasolineras(ngas, seedCD);
@@ -59,7 +59,7 @@ public class Main {
                                 new IAGoalTest(),
                                 new IAHeuristicFunction());
                     }
-                    if (c == 1) {
+                    else if (c == 1) {
                         if (first == true){
                             System.out.println("Vacio + Add + Swap1:");
                             first = false;
@@ -69,7 +69,7 @@ public class Main {
                                 new IAGoalTest(),
                                 new IAHeuristicFunction());
                     }
-                    if (c == 2) {
+                    else if (c == 2) {
                         if (first == true){
                             System.out.println("Vacio + Add + Swap2: ");
                             first = false;
@@ -79,7 +79,7 @@ public class Main {
                                 new IAGoalTest(),
                                 new IAHeuristicFunction());
                     }
-                    if (c == 3) {
+                    else if (c == 3) {
                         if (first == true) {
                             System.out.println("Vacio + Add + Swap1 + Swap2: ");
                             first = false;
@@ -90,6 +90,7 @@ public class Main {
                                 new IAHeuristicFunction());
                     }
                     else {
+                        System.out.println("aqui no entra verdad?");
                         p = new Problem(map,
                                 new IASuccesorFunction(),
                                 new IAGoalTest(),
