@@ -18,7 +18,7 @@ public class IAMap {
 
     private ArrayList<IAPet> PetNoAt;
 
-    private int perdidas; //Perdidas totales de pet no atendidas
+    private int perdidas;
     private int petAtendidas;
 
     /****CONSTRUCTORES****/
@@ -111,6 +111,21 @@ public class IAMap {
     public int petLength(){return PetNoAt.size();}
     public int sizeViajes(int i){return Viajes.get(i).size();}
     public int getPetAtendidas() {return petAtendidas;}
+    public double benf(){
+        int h=0;
+        for (IAViajes v: Viajes) {
+            h += v.getBeneficioTotal();
+            h -= v.getDistanciaTotal()*2; //1km 2 euro
+        }
+        return h;
+    }
+    public double km(){
+        int h=0;
+        for (IAViajes v: Viajes) {
+            h += v.getDistanciaTotal()*2; //1km 2 euros
+        }
+        return h;
+    }
 
     /******OPERADORES******/
     public boolean AddViaje(int v, int p){
@@ -123,7 +138,7 @@ public class IAMap {
 
     public boolean SwapViaje(int i1, int j1, int i2, int j2){
         IAPet p1 = Viajes.get(i1).getPetition(j1);
-        IAPet p2 =Viajes.get(i2).getPetition(j2);
+        IAPet p2 = Viajes.get(i2).getPetition(j2);
         return Viajes.get(i2).swapPet(j2,p1) && Viajes.get(i1).swapPet(j1,p2);
     }
     
@@ -145,23 +160,6 @@ public class IAMap {
         }
         return h - perdidas;
         //return h;
-    }
-
-    public double benf(){
-        int h=0;
-        for (IAViajes v: Viajes) {
-            h += v.getBeneficioTotal();
-            h -= v.getDistanciaTotal()*2; //1km 2 euro 
-        }
-        return h;
-    }
-
-    public double km(){
-        int h=0;
-        for (IAViajes v: Viajes) {
-            h += v.getDistanciaTotal()*2; //1km 2 euros
-        }
-        return h;
     }
 
     /****PRINTS****/

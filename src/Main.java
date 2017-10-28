@@ -1,10 +1,6 @@
-import Prac1.IAMap;
+import Prac1.*;
 import IA.Gasolina.Gasolineras;
 import IA.Gasolina.CentrosDistribucion;
-import Prac1.IAGoalTest;
-import Prac1.IAHeuristicFunction;
-import Prac1.IASuccesorFunction;
-import Prac1.IASuccesorSA;
 
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
@@ -17,63 +13,114 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) throws Exception {
 
         /****Parametros para Experimentos****/
-        int seedG = randInt(1, 9999);
-        int seedCD = randInt(1, 9999);
         int ncd = 10;
         int ngas = 100;
         boolean rellenar = false;
         boolean HillClimb = true;
         int numexperiments = 20;
+        ArrayList<Integer> seedsG = new ArrayList<Integer>(numexperiments);
+        ArrayList<Integer> seedsCD = new ArrayList<Integer>(numexperiments);
+        for (int i = 0; i < numexperiments; i++) {
+            seedsG.add(i, randInt(1, 9999));
+            seedsCD.add(i, randInt(1, 9999));
+        }
         /////////////////////////////////////
 
         //Execució
-        for (int i = 0; i < numexperiments; i++){
-            seedG = randInt(1, 9999);
-            seedCD = randInt(1, 9999);
-            double time = System.currentTimeMillis();
+        for (int c = 0; c < 4; c++) {
+            boolean first = true;
+            for (int i = 0; i < numexperiments; i++) {
+                int seedG = seedsG.get(i);
+                int seedCD = seedsCD.get(i);
+                System.out.println("hola: " + seedCD + seedG);
+                double time = System.currentTimeMillis();
+                CentrosDistribucion cd = new CentrosDistribucion(ncd, 1, seedG);
+                Gasolineras gas = new Gasolineras(ngas, seedCD);
 
-            CentrosDistribucion cd = new CentrosDistribucion(ncd, 1, seedG);
-            Gasolineras gas = new Gasolineras(ngas, seedCD);
+                /****ESTADO INICIAL****/
+                IAMap map = new IAMap(cd, gas, rellenar);
 
-            /****ESTADO INICIAL****/
-            IAMap map = new IAMap(cd, gas, rellenar);
+                /****CREATE THE PROBLEM OBJECT****/
+                Problem p;
+                if (HillClimb) {
+                    if (c == 0) {
+                        if (first == true){
+                            System.out.println("Vacio + Add:");
+                            first = false;
+                        }
+                        p = new Problem(map,
+                                new IASuccesorAdd(),
+                                new IAGoalTest(),
+                                new IAHeuristicFunction());
+                    }
+                    if (c == 1) {
+                        if (first == true){
+                            System.out.println("Vacio + Add + Swap1:");
+                            first = false;
+                        }
+                        p = new Problem(map,
+                                new IASuccesorAS1(),
+                                new IAGoalTest(),
+                                new IAHeuristicFunction());
+                    }
+                    if (c == 2) {
+                        if (first == true){
+                            System.out.println("Vacio + Add + Swap2: ");
+                            first = false;
+                        }
+                        p = new Problem(map,
+                                new IASuccesorAS2(),
+                                new IAGoalTest(),
+                                new IAHeuristicFunction());
+                    }
+                    if (c == 3) {
+                        if (first == true) {
+                            System.out.println("Vacio + Add + Swap1 + Swap2: ");
+                            first = false;
+                        }
+                        p = new Problem(map,
+                                new IASuccesorAS1S2(),
+                                new IAGoalTest(),
+                                new IAHeuristicFunction());
+                    }
+                    else {
+                        p = new Problem(map,
+                                new IASuccesorFunction(),
+                                new IAGoalTest(),
+                                new IAHeuristicFunction());
+                    }
+                }
+                else {
+                    p = new Problem(map,
+                            new IASuccesorSA(),
+                            new IAGoalTest(),
+                            new IAHeuristicFunction());
+                }
 
-            /****CREATE THE PROBLEM OBJECT****/
-            Problem p;
-            if (HillClimb) {
-                p = new Problem(map,
-                        new IASuccesorFunction(),
-                        new IAGoalTest(),
-                        new IAHeuristicFunction());
-            } else {
-                p = new Problem(map,
-                        new IASuccesorSA(),
-                        new IAGoalTest(),
-                        new IAHeuristicFunction());
+                /****INSTANTIATE THE SEARCH ALGORITHM****/
+                Search alg;
+                if (HillClimb) alg = new HillClimbingSearch();
+                else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
+
+                /****INSTANTIATE THE SEARCHAGENT OBJECT****/
+                SearchAgent agent = new SearchAgent(p, alg);
+
+                /****RESULTS****/
+                //System.out.println();
+                double t = (System.currentTimeMillis() - time);
+                if (HillClimb) printActions(agent.getActions(), t); //Si es SA esto peta xD
+                printInstrumentation(agent.getInstrumentation());
+
+                //System.out.println("Time: " + (System.currentTimeMillis() - time));
+                //System.out.println("Seeds: " + seedCD + "_" + seedG);
             }
-
-            /****INSTANTIATE THE SEARCH ALGORITHM****/
-            Search alg;
-            if (HillClimb) alg = new HillClimbingSearch();
-            else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
-
-            /****INSTANTIATE THE SEARCHAGENT OBJECT****/
-            SearchAgent agent = new SearchAgent(p, alg);
-
-            /****RESULTS****/
-            //System.out.println();
-            double t = (System.currentTimeMillis() - time);
-            if (HillClimb) printActions(agent.getActions(), t); //Si es SA esto peta xD
-            printInstrumentation(agent.getInstrumentation());
-
-            //System.out.println("Time: " + (System.currentTimeMillis() - time));
-            //System.out.println("Seeds: " + seedCD + "_" + seedG);
-    }
-
+        }
     }
 
     private static void printInstrumentation(Properties properties) {
