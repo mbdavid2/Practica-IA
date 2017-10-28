@@ -55,20 +55,15 @@ public class IAMap {
         if (rellenar) {
             int i = 0;
             int j = 0;
-            int distActual;
-            IAViajes auxv;
             while (i < Viajes.size() && j < PetNoAt.size()) {
-                auxv = Viajes.get(i);
-                if (auxv.size() < 10){
-                    distActual = auxv.distCD_G(auxv.getCD(), PetNoAt.get(j).get_Gas());
-                    if (auxv.getDistanciaTotal() +  distActual >= 640){ //Aqui solo entra si estamos seguros de que cabe al menos uno mas
-                        //Si ha alcanzado el maximo de 640 km
-                        i++; //pasamos al siguiente viaje, pq en este ya no podemos poner mas
-                    } else { //Aqui lo ha podido añadir correctamente
-                        auxv.AddPet(PetNoAt.get(j));
+                if (Viajes.get(i).size() < 10){
+                    if (!Viajes.get(i).AddPet(PetNoAt.get(j))){ //Si da falso quiere decir que hemos sobrepasado el maximo de 640 km.
+                        Viajes.get(i).DelPet();
+                        i++; //Pasamos al siguiente viaje, pq en este ya no podemos poner mas
+                    } else { //Se ha podido añadir corectamente
                         perdidas -= PetNoAt.get(j).get_Per();
                         PetNoAt.remove(j);
-                        j++;
+                        j++; //Pasamos a la siguiente peticion.
                     }
                 }
                 else i++;

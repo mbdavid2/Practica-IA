@@ -52,26 +52,27 @@ public class IAViajes {
         Peticiones.set(i,p);
         distanciaTotal += calcular_dV(i-(i%2));
         beneficioTotal += p.get_Ben();
-        return distanciaTotal <= 640;
+        return distanciaTotal <= 640; //Devuelve falso si sobrepasamos los km max, pero el swap queda hecho.
     }
 
     public boolean AddPet(IAPet peticion){
         int x = Peticiones.size();
         if(x >= 10) return false; //Maximo viajes (5)
-        if(x%2 != 0) distanciaTotal -= calcular_dV((x-1));
+        if(x%2 != 0) distanciaTotal -= calcular_dV(x-1);
         Peticiones.add(peticion);
         distanciaTotal += calcular_dV(x-(x%2));
         beneficioTotal += peticion.get_Ben();
-        return distanciaTotal <= 640;
+        return distanciaTotal <= 640; //Devuelve falso si sobremasamos los km max, pero el add queda hecho,
     }
 
-    public void DelPet(IAPet peticion){
-        //Unicamente se llamara justo despues de un AddPet y con la misma peticion
-        int x = Peticiones.size();
-        if((x-1)%2 != 0) distanciaTotal += calcular_dV((x-2)); //¿?¿?¿?Si antes de añadir (es decir, con x-1) x%2 != 0 se cumple, entonces ha hecho distanciaTotal -= calcular_dV((x-1));¿?¿?¿?
-        Peticiones.remove(peticion);
-        distanciaTotal -= calcular_dV(x-(x%2));
-        beneficioTotal -= peticion.get_Ben();
+    public void DelPet(){  //Borra la ultima peticion.
+        int x = Peticiones.size()-1;
+        if(x >= 0){
+            distanciaTotal -= calcular_dV(x-(x%2));
+            beneficioTotal -= Peticiones.get(x).get_Ben();
+            Peticiones.remove(x);
+            if(x%2 != 0) distanciaTotal += calcular_dV(x-1);
+        }
     }
 
     /****AUXILIAR FUNCTIONS****/
