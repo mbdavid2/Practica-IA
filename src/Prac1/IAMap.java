@@ -55,34 +55,27 @@ public class IAMap {
         if (rellenar) {
             int i = 0;
             int j = 0;
+            int distActual;
+            IAViajes auxv;
             while (i < Viajes.size() && j < PetNoAt.size()) {
-                if (j % 10 == 0) i++; //cada 10 peticiones, siguiente viaje
-                Viajes.get(i).AddPet(PetNoAt.get(j));
-                perdidas -= PetNoAt.get(j).get_Per();
-                PetNoAt.remove(j);
-                j++;
+                auxv = Viajes.get(i);
+                if (auxv.size() < 10){
+                    distActual = auxv.distCD_G(auxv.getCD(), PetNoAt.get(j).get_Gas());
+                    if (auxv.getDistanciaTotal() +  distActual >= 640){ //Aqui solo entra si estamos seguros de que cabe al menos uno mas
+                        //Si ha alcanzado el maximo de 640 km
+                        i++; //pasamos al siguiente viaje, pq en este ya no podemos poner mas
+                    } else { //Aqui lo ha podido añadir correctamente
+                        auxv.AddPet(PetNoAt.get(j));
+                        perdidas -= PetNoAt.get(j).get_Per();
+                        PetNoAt.remove(j);
+                        j++;
+                    }
+                }
+                else i++;
             }
             //System.out.println("*Se ha creado el estado incial IAMap con peticiones asignadas*");
         }
         //else System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
-
-        /*
-        //Alternativa: Rellenarlo de peticiones "aleatoriamente"
-        if (rellenar) {
-            int i = 0;
-            int j = 0;
-            while (i < Viajes.size() && j < PetNoAt.size()) {
-                if (j % 10 == 0) i++; //cada 10 peticiones, siguiente viaje
-                Viajes.get(i).AddPet(PetNoAt.get(j));
-                perdidas -= PetNoAt.get(j).get_Per();
-                PetNoAt.remove(j);
-                j++;
-            }
-            System.out.println("*Se ha creado el estado incial IAMap con peticiones asignadas*");
-        }
-        else System.out.println("*Se ha creado el estado incial IAMap (vacío)*");
-        */
-
         //printGas(0);
         //printViajes();
     }

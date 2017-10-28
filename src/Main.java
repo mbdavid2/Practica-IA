@@ -33,10 +33,17 @@ public class Main {
         /////////////////////////////////////
 
         //Execució
+        int max;
         for (int inicial = 0; inicial < 2; inicial++) {
-            if (inicial == 0) System.out.println("Vacio:");
-            else System.out.println("Lleno:");
-            for (int c = 0; c < 4; c++) {
+            if (inicial == 0) {
+                max = 4;
+                System.out.println("Vacio:");
+            }
+            else {
+                max = 7;
+                System.out.println("Lleno:");
+            }
+            for (int c = 0; c < max; c++) {
                 boolean first = true;
                 for (int i = 0; i < numexperiments; i++) {
                     int seedG = seedsG.get(i);
@@ -59,7 +66,9 @@ public class Main {
                     if (HillClimb) {
                         if (c == 0) {
                             if (first == true) {
-                                System.out.println("Vacio + Add:");
+                                System.out.println("");
+                                System.out.println("Add:");
+                                System.out.println("");
                                 first = false;
                             }
                             p = new Problem(map,
@@ -68,7 +77,9 @@ public class Main {
                                     new IAHeuristicFunction());
                         } else if (c == 1) {
                             if (first == true) {
-                                System.out.println("Vacio + Add + Swap1:");
+                                System.out.println("");
+                                System.out.println("Add + Swap1:");
+                                System.out.println("");
                                 first = false;
                             }
                             p = new Problem(map,
@@ -77,7 +88,9 @@ public class Main {
                                     new IAHeuristicFunction());
                         } else if (c == 2) {
                             if (first == true) {
-                                System.out.println("Vacio + Add + Swap2: ");
+                                System.out.println("");
+                                System.out.println("Add + Swap2: ");
+                                System.out.println("");
                                 first = false;
                             }
                             p = new Problem(map,
@@ -86,15 +99,52 @@ public class Main {
                                     new IAHeuristicFunction());
                         } else if (c == 3) {
                             if (first == true) {
-                                System.out.println("Vacio + Add + Swap1 + Swap2: ");
+                                System.out.println("");
+                                System.out.println("Add + Swap1 + Swap2: ");
+                                System.out.println("");
                                 first = false;
                             }
                             p = new Problem(map,
                                     new IASuccesorAS1S2(),
                                     new IAGoalTest(),
                                     new IAHeuristicFunction());
+                        }
+                        //Explusivos de "lleno"
+                        else if (c == 4) {
+                            if (first == true) {
+                                System.out.println("");
+                                System.out.println("Lleno + Swap1: ");
+                                System.out.println("");
+                                first = false;
+                            }
+                            p = new Problem(map,
+                                    new IASuccesorS1(),
+                                    new IAGoalTest(),
+                                    new IAHeuristicFunction());
+                        } else if (c == 5) {
+                            if (first == true) {
+                                System.out.println("");
+                                System.out.println("Lleno + Swap2: ");
+                                System.out.println("");
+                                first = false;
+                            }
+                            p = new Problem(map,
+                                    new IASuccesorS2(),
+                                    new IAGoalTest(),
+                                    new IAHeuristicFunction());
+                        }else if (c == 6) {
+                            if (first == true) {
+                                System.out.println("");
+                                System.out.println("Lleno + Swap1 + Swap2: ");
+                                System.out.println("");
+                                first = false;
+                            }
+                            p = new Problem(map,
+                                    new IASuccesorS1S2(),
+                                    new IAGoalTest(),
+                                    new IAHeuristicFunction());
                         } else {
-                            System.out.println("aqui no entra verdad?");
+                            System.out.println("aqui no tiene que entrar");
                             p = new Problem(map,
                                     new IASuccesorFunction(),
                                     new IAGoalTest(),

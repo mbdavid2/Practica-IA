@@ -41,6 +41,7 @@ public class IAViajes {
     public IAPet getPetition(int i){return Peticiones.get(i); }
     public int getDistanciaTotal(){return distanciaTotal;}
     public int getBeneficioTotal(){return beneficioTotal;}
+    public Distribucion getCD(){return CD;}
     public int size(){return Peticiones.size();}
 
 
@@ -57,17 +58,24 @@ public class IAViajes {
     public boolean AddPet(IAPet peticion){
         int x = Peticiones.size();
         if(x >= 10) return false; //Maximo viajes (5)
-        //System.out.println("Dist:" + distanciaTotal + ", Ben: " + beneficioTotal);
         if(x%2 != 0) distanciaTotal -= calcular_dV((x-1));
         Peticiones.add(peticion);
         distanciaTotal += calcular_dV(x-(x%2));
         beneficioTotal += peticion.get_Ben();
-        //System.out.println("Dist:" + distanciaTotal + ", Ben: " + beneficioTotal);
         return distanciaTotal <= 640;
     }
 
+    public void DelPet(IAPet peticion){
+        //Unicamente se llamara justo despues de un AddPet y con la misma peticion
+        int x = Peticiones.size();
+        if((x-1)%2 != 0) distanciaTotal += calcular_dV((x-2)); //¿?¿?¿?Si antes de añadir (es decir, con x-1) x%2 != 0 se cumple, entonces ha hecho distanciaTotal -= calcular_dV((x-1));¿?¿?¿?
+        Peticiones.remove(peticion);
+        distanciaTotal -= calcular_dV(x-(x%2));
+        beneficioTotal -= peticion.get_Ben();
+    }
+
     /****AUXILIAR FUNCTIONS****/
-    private int distCD_G(Distribucion c, Gasolinera g) { //Distance between a CD and a G
+    public int distCD_G(Distribucion c, Gasolinera g) { //Distance between a CD and a G
         return Math.abs(c.getCoordX() - g.getCoordX()) + Math.abs(c.getCoordY() - g.getCoordY());
     }
 
