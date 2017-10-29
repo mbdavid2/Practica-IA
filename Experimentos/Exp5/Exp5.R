@@ -1,5 +1,14 @@
-#Comparación de los beneficios estado inicial vacío
-boxplot(list("vA"=V_A$Benef,"vAS1"=V_AS1$Benef,"vAS2"=V_AS2$Benef,"vAS1S2"=V_AS1S2$Benef), ylab="Beneficio (€)", xlab="Operadores", main = "Beneficio (estado inicial vacío)")
+#Comparación de los beneficios
+boxplot(list("5 CDs 2 camiones"=doscada$Benef,"10 CDs 1 camión"=unocada$Benef), ylab="Beneficio (€)", main = "Beneficio")
+
+boxplot(list("5 CDs 2 camiones"=doscada$Km,"10 CDs 1 camión"=unocada$Km), ylab="Kilometros", main = "Distancia total recorrida")
+
+
+
+
+
+######
+#del exp1-2 por si se necesita algo
 
 #Comparación de los tiempos estado inicial vacío
 boxplot(list("vA"=V_A$Tiempo,"vAS1"=V_AS1$Tiempo,"vAS2"=V_AS2$Tiempo,"vAS1S2"=V_AS1S2$Tiempo), ylab="Tiempo (ms)", xlab="Operadores", main = "Tiempo (estado inicial vacío)")

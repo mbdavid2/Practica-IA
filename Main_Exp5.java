@@ -21,7 +21,6 @@ public class Main {
         /****Parametros para Experimentos****/
         int ncd = 10;
         int ngas = 100;
-        int km = 2;
         boolean rellenar = false;
         boolean HillClimb = true;
         int numexperiments = 20;
@@ -34,34 +33,42 @@ public class Main {
         /////////////////////////////////////
 
         //Execució
-        for (int j = 0; j < 30; j++) {
-            CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234);
-            Gasolineras gas = new Gasolineras(ngas, 1234);
+        int max;
+        for (int j = 0; j < 2; j++) { //Dos tipos distintos
+            for (int i = 0; i < numexperiments; i++) {
+                int seedG = seedsG.get(i);
+                int seedCD = seedsCD.get(i);
 
-            /****ESTADO INICIAL****/
-            IAMap map;
-            map = new IAMap(cd, gas, false, km);
+                CentrosDistribucion cd;
+                if (j == 0) cd = new CentrosDistribucion(10, 1, seedG);
+                else cd = new CentrosDistribucion(5, 2, seedG);
+                Gasolineras gas = new Gasolineras(ngas, seedCD);
 
+                /****ESTADO INICIAL****/
+                IAMap map;
+                map = new IAMap(cd, gas, false);
 
-            /****CREATE THE PROBLEM OBJECT****/
-            Problem p;
-                p = new Problem(map,
-                        new IASuccesorAS1(),
-                        new IAGoalTest(),
-                        new IAHeuristicFunction());
+                /****CREATE THE PROBLEM OBJECT****/
+                Problem p;
+                    p = new Problem(map,
+                            new IASuccesorFunction(),
+                            new IAGoalTest(),
+                            new IAHeuristicFunction());
 
-            /****INSTANTIATE THE SEARCH ALGORITHM****/
-            Search alg;
-            if (HillClimb) alg = new HillClimbingSearch();
-            else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
+                /****INSTANTIATE THE SEARCH ALGORITHM****/
+                Search alg;
+                if (HillClimb) alg = new HillClimbingSearch();
+                else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
 
-            /****INSTANTIATE THE SEARCHAGENT OBJECT****/
-            SearchAgent agent = new SearchAgent(p, alg);
+                /****INSTANTIATE THE SEARCHAGENT OBJECT****/
+                SearchAgent agent = new SearchAgent(p, alg);
 
-            /****RESULTS****/
-            if (HillClimb) printActions(agent.getActions(), km); //Si es SA esto peta xD
-            printInstrumentation(agent.getInstrumentation());
-            km = km*2;
+                /****RESULTS****/
+                if (j == 0 && i == 0) System.out.println("10 CDs:");
+                if (j == 1 && i == 0) System.out.println("5 CDs:");
+                if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
+                printInstrumentation(agent.getInstrumentation());
+            }
         }
     }
 
@@ -71,19 +78,20 @@ public class Main {
             String key = (String) keys.next();
             String property = properties.getProperty(key);
             //System.out.println(key + " : " + property);
-            //System.out.println(" " + property);
+            System.out.println(" " + property);
         }
 
     }
 
-    private static void printActions(List actions, int km) {
+    private static void printActions(List actions) {
         /*for (int i = 0; i < actions.size(); i++) {
             String action = (String) actions.get(i);
             System.out.println(action);
         }
         //Solo muestra ultimo??¿*/
         String action = (String) actions.get(actions.size()-1);
-        System.out.println(km + " " + action);
+        System.out.print(action);
+
     }
 
     public static int randInt(int min, int max) {

@@ -20,9 +20,11 @@ public class IAMap {
 
     private int perdidas;
     private int petAtendidas;
+    private int coste;
 
     /****CONSTRUCTORES****/
-    public IAMap(CentrosDistribucion centros, Gasolineras gasolineras, boolean rellenar) {
+    public IAMap(CentrosDistribucion centros, Gasolineras gasolineras, boolean rellenar, int km) {
+        coste = km;
         cd = centros;
         gas = gasolineras;
         Viajes = new ArrayList<IAViajes>();
@@ -75,9 +77,10 @@ public class IAMap {
         //printViajes();
     }
 
-    public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd, int petAten)  {
+    public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd, int petAten, int km)  {
         cd = c;
         gas = g;
+        coste = km;
         perdidas = perd;
         petAtendidas = petAten;
         Viajes = new ArrayList<IAViajes>();
@@ -91,7 +94,7 @@ public class IAMap {
     }
 
     public IAMap copyState(){
-        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas,petAtendidas);
+        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas,petAtendidas, coste);
     }
 
     /****GETTERS****/
@@ -103,14 +106,14 @@ public class IAMap {
         int h=0;
         for (IAViajes v: Viajes) {
             h += v.getBeneficioTotal();
-            h -= v.getDistanciaTotal()*2; //1km 2 euro
+            h -= v.getDistanciaTotal()*coste;
         }
         return h - perdidas;
     }
     public double km(){
         int h=0;
         for (IAViajes v: Viajes) {
-            h += v.getDistanciaTotal()*2; //1km 2 euros
+            h += v.getDistanciaTotal()*coste;
         }
         return h;
     }
