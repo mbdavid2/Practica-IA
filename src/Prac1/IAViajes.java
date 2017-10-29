@@ -18,23 +18,27 @@ public class IAViajes {
 
     private int beneficioTotal;
 
+    private int maxkm;
+
     /****CONSTRUCTOR****/
-    public IAViajes(Distribucion centro) {
+    public IAViajes(Distribucion centro, int max) {
         CD = centro;
         Peticiones = new ArrayList<IAPet>();
         distanciaTotal = 0;
         beneficioTotal = 0;
+        maxkm = max;
     }
     /****CLONE****/
-    public IAViajes(Distribucion c, ArrayList<IAPet> p, int d, int b){
+    public IAViajes(Distribucion c, ArrayList<IAPet> p, int d, int b, int max){
         CD =c;
+        maxkm = max;
         Peticiones = (ArrayList<IAPet>)p.clone();
         distanciaTotal = d;
         beneficioTotal = b;
     }
 
     public IAViajes copyViaje(){
-        return new IAViajes(this.CD,this.Peticiones,this.distanciaTotal,this.beneficioTotal);
+        return new IAViajes(this.CD,this.Peticiones,this.distanciaTotal,this.beneficioTotal, this.maxkm);
     }
 
     /****GETTERS****/
@@ -52,7 +56,7 @@ public class IAViajes {
         Peticiones.set(i,p);
         distanciaTotal += calcular_dV(i-(i%2));
         beneficioTotal += p.get_Ben();
-        return distanciaTotal <= 640; //Devuelve falso si sobrepasamos los km max, pero el swap queda hecho.
+        return distanciaTotal <= maxkm; //Devuelve falso si sobrepasamos los km max, pero el swap queda hecho.
     }
 
     public boolean AddPet(IAPet peticion){
@@ -62,7 +66,7 @@ public class IAViajes {
         Peticiones.add(peticion);
         distanciaTotal += calcular_dV(x-(x%2));
         beneficioTotal += peticion.get_Ben();
-        return distanciaTotal <= 640; //Devuelve falso si sobremasamos los km max, pero el add queda hecho,
+        return distanciaTotal <= maxkm; //Devuelve falso si sobremasamos los km max, pero el add queda hecho,
     }
 
     public void DelPet(){  //Borra la ultima peticion.

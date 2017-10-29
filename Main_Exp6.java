@@ -34,39 +34,34 @@ public class Main {
         /////////////////////////////////////
 
         //Execució
-        for (int j = 0; j < 3; j++) {
-            System.out.println("nuevo");
-            for (int i = 0; i < numexperiments; i++) {
-                int seedG = seedsG.get(i);
-                int seedCD = seedsCD.get(i);
-                CentrosDistribucion cd = new CentrosDistribucion(10, 1, seedG);
-                Gasolineras gas = new Gasolineras(ngas, seedCD);
+        for (int j = 0; j < 30; j++) {
+            CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234);
+            Gasolineras gas = new Gasolineras(ngas, 1234);
 
-                /****ESTADO INICIAL****/
-                IAMap map;
-                if (j == 0) map = new IAMap(cd, gas, false, 560);
-                else if (j == 1) map = new IAMap(cd, gas, false, 640);
-                else map = new IAMap(cd, gas, false, 720);
+            /****ESTADO INICIAL****/
+            IAMap map;
+            map = new IAMap(cd, gas, false, km);
 
-                /****CREATE THE PROBLEM OBJECT****/
-                Problem p;
+
+            /****CREATE THE PROBLEM OBJECT****/
+            Problem p;
                 p = new Problem(map,
                         new IASuccesorAS1(),
                         new IAGoalTest(),
                         new IAHeuristicFunction());
 
-                /****INSTANTIATE THE SEARCH ALGORITHM****/
-                Search alg;
-                if (HillClimb) alg = new HillClimbingSearch();
-                else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
+            /****INSTANTIATE THE SEARCH ALGORITHM****/
+            Search alg;
+            if (HillClimb) alg = new HillClimbingSearch();
+            else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
 
-                /****INSTANTIATE THE SEARCHAGENT OBJECT****/
-                SearchAgent agent = new SearchAgent(p, alg);
+            /****INSTANTIATE THE SEARCHAGENT OBJECT****/
+            SearchAgent agent = new SearchAgent(p, alg);
 
-                /****RESULTS****/
-                if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
-                printInstrumentation(agent.getInstrumentation());
-            }
+            /****RESULTS****/
+            if (HillClimb) printActions(agent.getActions(), km); //Si es SA esto peta xD
+            printInstrumentation(agent.getInstrumentation());
+            km = km*2;
         }
     }
 
@@ -81,14 +76,14 @@ public class Main {
 
     }
 
-    private static void printActions(List actions) {
+    private static void printActions(List actions, int km) {
         /*for (int i = 0; i < actions.size(); i++) {
             String action = (String) actions.get(i);
             System.out.println(action);
         }
         //Solo muestra ultimo??¿*/
         String action = (String) actions.get(actions.size()-1);
-        System.out.println(action);
+        System.out.println(km + " " + action);
     }
 
     public static int randInt(int min, int max) {
