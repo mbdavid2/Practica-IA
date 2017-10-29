@@ -65,8 +65,8 @@ public class Main {
             SearchAgent agent = new SearchAgent(p, alg);
             //printActions(agent.getActions());
             /****RESULTS****/
-            //if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
-            //printInstrumentation(agent.getInstrumentation());
+            if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
+            printInstrumentation(agent.getInstrumentation());
         }
     //}
 
@@ -82,7 +82,7 @@ public class Main {
     }
 
     private static void printActions(List actions) {
-        for (int i = 0; i < actions.size(); i++) {
+        for (int i = 0; i < actions.size()-1; i++) {
             String action = (String) actions.get(i);
             System.out.println(action);
         }

@@ -31,7 +31,6 @@ public class IASuccesorSA implements SuccessorFunction {
                     SuccessorFound = true;
                     retval.add(new Successor("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf(), tmp));
                     //System.out.println("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
-                    System.out.println("Ben: " + tmp.benf());
                 }
             }
             //Viajes vacio -> Solo podemos hacer Add
@@ -40,16 +39,14 @@ public class IASuccesorSA implements SuccessorFunction {
                 int P = randInt(0, board.petLength() - 1);
                 tmp = board.copyState();
                 if (tmp.AddViaje(V, P)) {
-                    //System.out.println("Estoy en Add de viajes vacios. Pets atendidas: " + tmp.getPetAtendidas());
                     //System.out.println("Added " + P + " to " + V + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
-                    System.out.println("Ben: " + tmp.benf());
                     SuccessorFound = true;
                     retval.add(new Successor("Added " + P + " to " + V + ", total km: " + tmp.km() + ", Ben: " + tmp.benf(), tmp));
                 }
             }
             //Podemos hacer cualquier cosa
             else {
-                int randomNum = randInt(0, 2);
+                int randomNum = randInt(0, 1);
                 if (randomNum == 0) { /****ADD****/
                     int V = randInt(0, board.mapLength() - 1);
                     int P = randInt(0, board.petLength() - 1);
@@ -57,10 +54,9 @@ public class IASuccesorSA implements SuccessorFunction {
                     if (tmp.AddViaje(V, P)) {
                         SuccessorFound = true;
                         //System.out.println("Added " + P + " to " + V + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
-                        System.out.println("Ben: " + tmp.benf());
                         retval.add(new Successor("Added " + P + " to " + V + ", total km: " + tmp.km() + ", Ben: " + tmp.benf(), tmp));
                     }
-                } /*else if (randomNum == 1) { /****SWAP**
+                } else if (randomNum == 1) { /****SWAP**/
                     int V1;
                     do {
                         V1 = randInt(0, board.mapLength() - 1);
@@ -74,10 +70,10 @@ public class IASuccesorSA implements SuccessorFunction {
                     tmp = board.copyState();
                     if (tmp.SwapViaje(V1, PV1, V2, PV2)) {
                         SuccessorFound = true;
-                        System.out.println("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
+                        //System.out.println("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
                         retval.add(new Successor("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf(), tmp));
                     }
-                }*/ /*else { /****SWAP***
+                }/*else { /****SWAP***
                     int V1;
                     do {
                         V1 = randInt(0, board.mapLength() - 1);
