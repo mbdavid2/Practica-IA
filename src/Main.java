@@ -34,146 +34,40 @@ public class Main {
 
         //Execució
         int max;
-        for (int inicial = 0; inicial < 2; inicial++) {
-            if (inicial == 0) {
-                max = 4;
-                System.out.println("Vacio:");
-            }
-            else {
-                max = 7;
-                System.out.println("Lleno:");
-            }
-            for (int c = 0; c < max; c++) {
-                boolean first = true;
-                for (int i = 0; i < numexperiments; i++) {
-                    int seedG = seedsG.get(i);
-                    int seedCD = seedsCD.get(i);
-                    //System.out.println("hola: " + seedCD + seedG);
-                    double time = System.currentTimeMillis();
-                    CentrosDistribucion cd = new CentrosDistribucion(ncd, 1, seedG);
-                    Gasolineras gas = new Gasolineras(ngas, seedCD);
+        for (int j = 0; j < 2; j++) { //Dos tipos distintos
+            for (int i = 0; i < numexperiments; i++) {
+                int seedG = seedsG.get(i);
+                int seedCD = seedsCD.get(i);
 
-                    /****ESTADO INICIAL****/
-                    IAMap map;
-                    if (inicial == 0){
-                        map = new IAMap(cd, gas, false);
-                    }
-                    else {
-                        map = new IAMap(cd, gas, true);
-                    }
-                    /****CREATE THE PROBLEM OBJECT****/
-                    Problem p;
-                    if (HillClimb) {
-                        if (c == 0) {
-                            if (first == true) {
-                                System.out.println("");
-                                System.out.println("Add:");
-                                System.out.println("");
-                                first = false;
-                            }
-                            p = new Problem(map,
-                                    new IASuccesorAdd(),
-                                    new IAGoalTest(),
-                                    new IAHeuristicFunction());
-                        } else if (c == 1) {
-                            if (first == true) {
-                                System.out.println("");
-                                System.out.println("Add + Swap1:");
-                                System.out.println("");
-                                first = false;
-                            }
-                            p = new Problem(map,
-                                    new IASuccesorAS1(),
-                                    new IAGoalTest(),
-                                    new IAHeuristicFunction());
-                        } else if (c == 2) {
-                            if (first == true) {
-                                System.out.println("");
-                                System.out.println("Add + Swap2: ");
-                                System.out.println("");
-                                first = false;
-                            }
-                            p = new Problem(map,
-                                    new IASuccesorAS2(),
-                                    new IAGoalTest(),
-                                    new IAHeuristicFunction());
-                        } else if (c == 3) {
-                            if (first == true) {
-                                System.out.println("");
-                                System.out.println("Add + Swap1 + Swap2: ");
-                                System.out.println("");
-                                first = false;
-                            }
-                            p = new Problem(map,
-                                    new IASuccesorAS1S2(),
-                                    new IAGoalTest(),
-                                    new IAHeuristicFunction());
-                        }
-                        //Explusivos de "lleno"
-                        else if (c == 4) {
-                            if (first == true) {
-                                System.out.println("");
-                                System.out.println("Lleno + Swap1: ");
-                                System.out.println("");
-                                first = false;
-                            }
-                            p = new Problem(map,
-                                    new IASuccesorS1(),
-                                    new IAGoalTest(),
-                                    new IAHeuristicFunction());
-                        } else if (c == 5) {
-                            if (first == true) {
-                                System.out.println("");
-                                System.out.println("Lleno + Swap2: ");
-                                System.out.println("");
-                                first = false;
-                            }
-                            p = new Problem(map,
-                                    new IASuccesorS2(),
-                                    new IAGoalTest(),
-                                    new IAHeuristicFunction());
-                        }else if (c == 6) {
-                            if (first == true) {
-                                System.out.println("");
-                                System.out.println("Lleno + Swap1 + Swap2: ");
-                                System.out.println("");
-                                first = false;
-                            }
-                            p = new Problem(map,
-                                    new IASuccesorS1S2(),
-                                    new IAGoalTest(),
-                                    new IAHeuristicFunction());
-                        } else {
-                            System.out.println("aqui no tiene que entrar");
-                            p = new Problem(map,
-                                    new IASuccesorFunction(),
-                                    new IAGoalTest(),
-                                    new IAHeuristicFunction());
-                        }
-                    } else {
-                        p = new Problem(map,
-                                new IASuccesorSA(),
-                                new IAGoalTest(),
-                                new IAHeuristicFunction());
-                    }
+                CentrosDistribucion cd;
+                if (j == 0) cd = new CentrosDistribucion(10, 1, seedG);
+                else cd = new CentrosDistribucion(5, 2, seedG);
+                Gasolineras gas = new Gasolineras(ngas, seedCD);
 
-                    /****INSTANTIATE THE SEARCH ALGORITHM****/
-                    Search alg;
-                    if (HillClimb) alg = new HillClimbingSearch();
-                    else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
+                /****ESTADO INICIAL****/
+                IAMap map;
+                map = new IAMap(cd, gas, false);
 
-                    /****INSTANTIATE THE SEARCHAGENT OBJECT****/
-                    SearchAgent agent = new SearchAgent(p, alg);
+                /****CREATE THE PROBLEM OBJECT****/
+                Problem p;
+                    p = new Problem(map,
+                            new IASuccesorFunction(),
+                            new IAGoalTest(),
+                            new IAHeuristicFunction());
 
-                    /****RESULTS****/
-                    //System.out.println();
-                    double t = (System.currentTimeMillis() - time);
-                    if (HillClimb) printActions(agent.getActions(), t); //Si es SA esto peta xD
-                    printInstrumentation(agent.getInstrumentation());
+                /****INSTANTIATE THE SEARCH ALGORITHM****/
+                Search alg;
+                if (HillClimb) alg = new HillClimbingSearch();
+                else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
 
-                    //System.out.println("Time: " + (System.currentTimeMillis() - time));
-                    //System.out.println("Seeds: " + seedCD + "_" + seedG);
-                }
+                /****INSTANTIATE THE SEARCHAGENT OBJECT****/
+                SearchAgent agent = new SearchAgent(p, alg);
+
+                /****RESULTS****/
+                if (j == 0 && i == 0) System.out.println("10 CDs:");
+                if (j == 1 && i == 0) System.out.println("5 CDs:");
+                if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
+                printInstrumentation(agent.getInstrumentation());
             }
         }
     }
@@ -189,14 +83,14 @@ public class Main {
 
     }
 
-    private static void printActions(List actions, double t) {
+    private static void printActions(List actions) {
         /*for (int i = 0; i < actions.size(); i++) {
             String action = (String) actions.get(i);
             System.out.println(action);
         }
         //Solo muestra ultimo??¿*/
         String action = (String) actions.get(actions.size()-1);
-        System.out.print(action + " " + t);
+        System.out.print(action);
 
     }
 
