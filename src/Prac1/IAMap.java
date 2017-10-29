@@ -145,7 +145,7 @@ public class IAMap {
         int h=0;
         for (IAViajes v: Viajes) {
             h += v.getDistanciaTotal()*2; //1km 2 euros
-            h -= v.getBeneficioTotal()*4;
+            h -= v.getBeneficioTotal();
         }
         return h - perdidas;
         //return h;

@@ -23,7 +23,7 @@ public class Main {
         int ngas = 100;
         int km = 2;
         boolean rellenar = false;
-        boolean HillClimb = true;
+        boolean HillClimb = false;
         int numexperiments = 20;
         ArrayList<Integer> seedsG = new ArrayList<Integer>(numexperiments);
         ArrayList<Integer> seedsCD = new ArrayList<Integer>(numexperiments);
@@ -31,12 +31,18 @@ public class Main {
             seedsG.add(i * 2421 / 23);
             seedsCD.add(i * 3211 / 13);
         }
+
+        /*Parametros SA*/
+        int steps = 1000;
+        int stiter = 10;
+        int k;
+        int lamb;
         /////////////////////////////////////
 
         //Execució
-        for (int i = 0; i < numexperiments; i++) {
-            int seedG = seedsG.get(i);
-            int seedCD = seedsCD.get(i);
+        //for (int i = 0; i < numexperiments; i++) {
+            int seedG = seedsG.get(5);
+            int seedCD = seedsCD.get(5);
             CentrosDistribucion cd = new CentrosDistribucion(10, 1, seedG);
             Gasolineras gas = new Gasolineras(ngas, seedCD);
 
@@ -46,23 +52,23 @@ public class Main {
             /****CREATE THE PROBLEM OBJECT****/
             Problem p;
             p = new Problem(map,
-                    new IASuccesorAS1(),
+                    new IASuccesorSA(),
                     new IAGoalTest(),
                     new IAHeuristicFunction());
 
             /****INSTANTIATE THE SEARCH ALGORITHM****/
             Search alg;
             if (HillClimb) alg = new HillClimbingSearch();
-            else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
+            else alg = new SimulatedAnnealingSearch(500, 10, 5, 0.01);
 
             /****INSTANTIATE THE SEARCHAGENT OBJECT****/
             SearchAgent agent = new SearchAgent(p, alg);
-
+            //printActions(agent.getActions());
             /****RESULTS****/
-            if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
-            printInstrumentation(agent.getInstrumentation());
+            //if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
+            //printInstrumentation(agent.getInstrumentation());
         }
-    }
+    //}
 
     private static void printInstrumentation(Properties properties) {
         Iterator keys = properties.keySet().iterator();
@@ -76,13 +82,13 @@ public class Main {
     }
 
     private static void printActions(List actions) {
-        /*for (int i = 0; i < actions.size(); i++) {
+        for (int i = 0; i < actions.size(); i++) {
             String action = (String) actions.get(i);
             System.out.println(action);
         }
-        //Solo muestra ultimo??¿*/
-        String action = (String) actions.get(actions.size()-1);
-        System.out.println(action);
+        //Solo muestra ultimo??¿
+        /*String action = (String) actions.get(actions.size()-1);
+        System.out.println(action);*/
     }
 
     public static int randInt(int min, int max) {
