@@ -28,45 +28,39 @@ public class Main {
         ArrayList<Integer> seedsG = new ArrayList<Integer>(numexperiments);
         ArrayList<Integer> seedsCD = new ArrayList<Integer>(numexperiments);
         for (int i = 0; i < numexperiments; i++) {
-            seedsG.add(i, randInt(1, 9999));
-            seedsCD.add(i, randInt(1, 9999));
+            seedsG.add(i * 2421 / 23);
+            seedsCD.add(i * 3211 / 13);
         }
         /////////////////////////////////////
 
         //Execució
-        for (int j = 0; j < 3; j++) {
-            System.out.println("nuevo");
-            for (int i = 0; i < numexperiments; i++) {
-                int seedG = seedsG.get(i);
-                int seedCD = seedsCD.get(i);
-                CentrosDistribucion cd = new CentrosDistribucion(10, 1, seedG);
-                Gasolineras gas = new Gasolineras(ngas, seedCD);
+        for (int i = 0; i < numexperiments; i++) {
+            int seedG = seedsG.get(i);
+            int seedCD = seedsCD.get(i);
+            CentrosDistribucion cd = new CentrosDistribucion(10, 1, seedG);
+            Gasolineras gas = new Gasolineras(ngas, seedCD);
 
-                /****ESTADO INICIAL****/
-                IAMap map;
-                if (j == 0) map = new IAMap(cd, gas, false, 560);
-                else if (j == 1) map = new IAMap(cd, gas, false, 640);
-                else map = new IAMap(cd, gas, false, 720);
+            /****ESTADO INICIAL****/
+            IAMap map;
+            map = new IAMap(cd, gas, false);
+            /****CREATE THE PROBLEM OBJECT****/
+            Problem p;
+            p = new Problem(map,
+                    new IASuccesorAS1(),
+                    new IAGoalTest(),
+                    new IAHeuristicFunction());
 
-                /****CREATE THE PROBLEM OBJECT****/
-                Problem p;
-                p = new Problem(map,
-                        new IASuccesorAS1(),
-                        new IAGoalTest(),
-                        new IAHeuristicFunction());
+            /****INSTANTIATE THE SEARCH ALGORITHM****/
+            Search alg;
+            if (HillClimb) alg = new HillClimbingSearch();
+            else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
 
-                /****INSTANTIATE THE SEARCH ALGORITHM****/
-                Search alg;
-                if (HillClimb) alg = new HillClimbingSearch();
-                else alg = new SimulatedAnnealingSearch(1000, 10, 5, 0.01);
+            /****INSTANTIATE THE SEARCHAGENT OBJECT****/
+            SearchAgent agent = new SearchAgent(p, alg);
 
-                /****INSTANTIATE THE SEARCHAGENT OBJECT****/
-                SearchAgent agent = new SearchAgent(p, alg);
-
-                /****RESULTS****/
-                if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
-                printInstrumentation(agent.getInstrumentation());
-            }
+            /****RESULTS****/
+            if (HillClimb) printActions(agent.getActions()); //Si es SA esto peta xD
+            printInstrumentation(agent.getInstrumentation());
         }
     }
 

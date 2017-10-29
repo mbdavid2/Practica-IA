@@ -20,11 +20,10 @@ public class IAMap {
 
     private int perdidas;
     private int petAtendidas;
-    private int max;
+
 
     /****CONSTRUCTORES****/
-    public IAMap(CentrosDistribucion centros, Gasolineras gasolineras, boolean rellenar, int km) {
-        max = km;
+    public IAMap(CentrosDistribucion centros, Gasolineras gasolineras, boolean rellenar) {
         cd = centros;
         gas = gasolineras;
         Viajes = new ArrayList<IAViajes>();
@@ -50,7 +49,7 @@ public class IAMap {
         //Estado inicial vacio
         Iterator c = centros.iterator();
         while (c.hasNext()) {
-            Viajes.add(new IAViajes((Distribucion)c.next(), max));
+            Viajes.add(new IAViajes((Distribucion)c.next()));
         }
 
         //Alternativa: Rellenarlo de peticiones "aleatoriamente"
@@ -77,10 +76,9 @@ public class IAMap {
         //printViajes();
     }
 
-    public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd, int petAten, int km)  {
+    public IAMap(CentrosDistribucion c, Gasolineras g,ArrayList<IAViajes> V, ArrayList<IAPet> P,int perd, int petAten)  {
         cd = c;
         gas = g;
-        max = km;
         perdidas = perd;
         petAtendidas = petAten;
         Viajes = new ArrayList<IAViajes>();
@@ -94,7 +92,7 @@ public class IAMap {
     }
 
     public IAMap copyState(){
-        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas,petAtendidas, max);
+        return new IAMap(cd,gas,Viajes,PetNoAt,perdidas,petAtendidas);
     }
 
     /****GETTERS****/
@@ -147,7 +145,7 @@ public class IAMap {
         int h=0;
         for (IAViajes v: Viajes) {
             h += v.getDistanciaTotal()*2; //1km 2 euros
-            h -= v.getBeneficioTotal();
+            h -= v.getBeneficioTotal()*4;
         }
         return h - perdidas;
         //return h;

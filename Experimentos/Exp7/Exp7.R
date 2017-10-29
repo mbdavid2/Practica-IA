@@ -7,8 +7,26 @@ summary(doscada$Km)
 summary(unocada$Km)
 
 
+boxplot(list("560"=menos$V1,"640"=medio$V1,"720"=mas$V1), ylab="Beneficio (€)", main = "Beneficio")
 
-######
+summary(menos$V1)
+summary(medio$V1)
+summary(mas$V1)
+
+test <- t.test(menos$V1,medio$V1)
+print(test)
+
+
+
+
+###########EXP 6###############
+plot(list("560"=menos$V1,"640"=medio$V1,"720"=mas$V1),ylab="Beneficio (€)", main = "Beneficio")
+
+
+
+##############################
+
+
 #del exp1-2 por si se necesita algo
 
 #Comparación de los tiempos estado inicial vacío
