@@ -30,7 +30,7 @@ public class IASuccesorSA implements SuccessorFunction {
                 if (tmp.SwapViaje(V1, PV1, V2, PV2)) {
                     SuccessorFound = true;
                     retval.add(new Successor("Ben: " + tmp.benf(), tmp));
-                    //System.out.println("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
+                    System.out.println("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
                 }
             }
             //Viajes vacio -> Solo podemos hacer Add
@@ -39,7 +39,7 @@ public class IASuccesorSA implements SuccessorFunction {
                 int P = randInt(0, board.petLength() - 1);
                 tmp = board.copyState();
                 if (tmp.AddViaje(V, P)) {
-                    //System.out.println("Added " + P + " to " + V + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
+                    System.out.println("Added " + P + " to " + V + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
                     SuccessorFound = true;
                     retval.add(new Successor("Ben: " + tmp.benf(), tmp));
                 }
@@ -53,7 +53,7 @@ public class IASuccesorSA implements SuccessorFunction {
                     tmp = board.copyState();
                     if (tmp.AddViaje(V, P)) {
                         SuccessorFound = true;
-                        //System.out.println("Added " + P + " to " + V + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
+                        System.out.println("Added " + P + " to " + V + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
                         retval.add(new Successor("Ben: " + tmp.benf(), tmp));
                     }
                 } else if (randomNum == 1) { /****SWAP**/
@@ -70,7 +70,7 @@ public class IASuccesorSA implements SuccessorFunction {
                     tmp = board.copyState();
                     if (tmp.SwapViaje(V1, PV1, V2, PV2)) {
                         SuccessorFound = true;
-                        //System.out.println("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
+                        System.out.println("Swapped (" + V1 + "," + PV1 + ") with (" + V2 + "," + PV2 + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
                         retval.add(new Successor("Ben: " + tmp.benf(), tmp));
                     }
                 }else { /****SWAP**/
@@ -83,14 +83,13 @@ public class IASuccesorSA implements SuccessorFunction {
                     tmp = board.copyState();
                     if (tmp.SwapPets(V1, PV1, P)) {
                         SuccessorFound = true;
-                        //System.out.println("Swapped (" + V1 + "," + PV1 + ") with petition (" + P + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
+                        System.out.println("Swapped (" + V1 + "," + PV1 + ") with petition (" + P + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf());
                         retval.add(new Successor("Swapped (" + V1 + "," + PV1 + ") with petition (" + P + ")" + ", total km: " + tmp.km() + ", Ben: " + tmp.benf(), tmp));
 
                     }
                 }
             }
         }
-        //System.out.println("Ben: " + tmp.benf());
         return (retval);
     }
 

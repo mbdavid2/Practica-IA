@@ -46,9 +46,9 @@ public class Main {
         SearchAgent agent = new SearchAgent(p, alg);
 
         /****RESULTS****/
-        System.out.println("Tiempo de ejecución" + (System.currentTimeMillis() - time));
-        printActions(agent.getActions());
+        if (HillClimb) printActions(agent.getActions());
         printInstrumentation(agent.getInstrumentation());
+        System.out.println("Tiempo de ejecución: " + (System.currentTimeMillis() - time) + " milisegundos");
     }
 
     private static void printInstrumentation(Properties properties) {
