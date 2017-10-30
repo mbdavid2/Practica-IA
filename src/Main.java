@@ -11,11 +11,12 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        /*****Ejecución normal*****/
-        double time = System.currentTimeMillis();
-        boolean HillClimb = true;
-        CentrosDistribucion cd = new CentrosDistribucion(10, 1, 1234);
-        Gasolineras gas = new Gasolineras(100, 1234);
+        /*****Parametros*****/
+        boolean HillClimb = false;
+        int ncd = 10;
+        int ngas = 100;
+        CentrosDistribucion cd = new CentrosDistribucion(ncd, 1, 1234);
+        Gasolineras gas = new Gasolineras(ngas, 1234);
 
         /****ESTADO INICIAL****/
         IAMap map = new IAMap(cd, gas, false);
@@ -42,13 +43,15 @@ public class Main {
             alg = new SimulatedAnnealingSearch(10000, 10, 125, 0.01);
 
         }
+        double time = System.currentTimeMillis();
+
         /****INSTANTIATE THE SEARCHAGENT OBJECT****/
         SearchAgent agent = new SearchAgent(p, alg);
 
         /****RESULTS****/
         if (HillClimb) printActions(agent.getActions());
         printInstrumentation(agent.getInstrumentation());
-        System.out.println("Tiempo de ejecución: " + (System.currentTimeMillis() - time) + " milisegundos");
+        System.out.println("Execution time: " + (System.currentTimeMillis() - time) + " ms");
     }
 
     private static void printInstrumentation(Properties properties) {
@@ -66,13 +69,4 @@ public class Main {
             System.out.println(action);
         }
     }
-
-    private static int randInt(int min, int max) {
-        Random rand = new Random();
-
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-
-        return randomNum;
-    }
-
 }
