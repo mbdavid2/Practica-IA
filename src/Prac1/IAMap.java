@@ -21,7 +21,6 @@ public class IAMap {
     private int perdidas;
     private int petAtendidas;
 
-
     /****CONSTRUCTORES****/
     public IAMap(CentrosDistribucion centros, Gasolineras gasolineras, boolean rellenar) {
         cd = centros;
@@ -190,7 +189,5 @@ public class IAMap {
             v.estadoViaje();
         }
     }
-
-
 }
 

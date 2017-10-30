@@ -49,6 +49,4 @@ public class IAPet {
     private int calc_Perd(int dias){
         return calc_Ben(dias) - calc_Ben(dias+1);
     }
-
-
 }

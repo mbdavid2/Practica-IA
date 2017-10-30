@@ -41,9 +41,7 @@ public class IAViajes {
     public IAPet getPetition(int i){return Peticiones.get(i); }
     public int getDistanciaTotal(){return distanciaTotal;}
     public int getBeneficioTotal(){return beneficioTotal;}
-    public Distribucion getCD(){return CD;}
     public int size(){return Peticiones.size();}
-
 
     /****OPERADORES****/
     public boolean swapPet(int i, IAPet p){ //0 <= i < Peticiones.size()

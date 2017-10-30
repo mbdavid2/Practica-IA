@@ -7,17 +7,9 @@
 
 
 
+plot(SA_tiempo$V1, SA_tiempo$V2, type="o", xlab="Número de CDs", ylab="Tiempo (ms)", main = "Tiempo en función del número de centros")
 
-
-
-
-#Comparación de los beneficios
-boxplot(list("Normal"=normal$V1,"B2"=beneficiox2$V1,"B2Pe2"=B2Pe2$V1,"B2Pe2De2"=B2Pe2De2$V1), ylab="Beneficio (€)", main = "Beneficio")
-
-summary(normal$V1)
-summary(beneficiox2$V1)
-summary(B2Pe2$V1)
-summary(B2Pe2De2$V1)
+plot(SA_tiempo2$V1, SA_tiempo2$V2, type="o", xlab="Número de CDs", ylab="Tiempo (ms)", main = "Tiempo en función del número de centros")
 
 
 boxplot(list("560"=menos$V1,"640"=medio$V1,"720"=mas$V1), ylab="Beneficio (€)", main = "Beneficio")
